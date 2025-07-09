@@ -4,29 +4,30 @@
 .verification-option {
   display: flex;
   align-items: center;
-  padding: 16px;
-  border: 1px solid #d3d3d3;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   background: #fff;
 }
 
 .verification-option:hover {
-  border-color: #0078d4;
-  background-color: #f8f9fa;
+  border-color: #7200ff;
+  background-color: #f8f6ff;
 }
 
 .verification-option.selected {
-  border-color: #0078d4;
-  background-color: #e3f2fd;
+  border-color: #7200ff;
+  background-color: #f0ebff;
 }
 
 .verification-icon {
   width: 24px;
   height: 24px;
-  margin-right: 12px;
+  margin-right: 15px;
+  opacity: 0.7;
   flex-shrink: 0;
 }
 
@@ -37,10 +38,10 @@
 .verification-title {
   font-weight: 600;
   color: #333;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
-.verification-desc {
+.verification-subtitle {
   font-size: 14px;
   color: #666;
 }
@@ -48,13 +49,13 @@
 /* Loading States */
 .loading-spinner {
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #f3f3f3;
-  border-top: 2px solid #0078d4;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #7200ff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-right: 8px;
+  margin: 0 auto 10px;
 }
 
 @keyframes spin {
@@ -68,16 +69,34 @@
 
 /* Success State */
 .success-checkmark {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: #28a745;
+  background-color: #4caf50;
+  margin: 0 auto 15px;
+  animation: checkmarkPop 0.5s ease-in-out;
+}
+
+@keyframes checkmarkPop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.success-checkmark::after {
+  content: "✓";
   color: white;
-  text-align: center;
-  line-height: 16px;
-  font-size: 12px;
-  margin-right: 8px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 /* Seamless Transitions */
@@ -104,6 +123,29 @@
 }
 
 /* Error State Enhancements */
+.error-state {
+  text-align: center;
+  padding: 20px;
+}
+
+.error-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #f44336;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+}
+
+.error-icon::after {
+  content: "!";
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .error-retry-button {
   margin-top: 15px;
 }
