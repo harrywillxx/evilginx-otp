@@ -1,0 +1,114 @@
+/* ===== ONLY NEW COMPONENTS CSS - NO EXISTING CLASSES ===== */
+
+/* Verification Options (2FA Page) */
+.verification-option {
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.verification-option:hover {
+  border-color: #0078d4;
+  background-color: #f8f9fa;
+}
+
+.verification-option.selected {
+  border-color: #0078d4;
+  background-color: #f0f8ff;
+}
+
+.verification-option .method-icon {
+  margin-right: 15px;
+  font-size: 24px;
+}
+
+.verification-option .method-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.verification-option .method-description {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Loading States */
+.loading-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #7200ff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Success State */
+.success-checkmark {
+  font-size: 48px;
+  color: #28a745;
+  margin-bottom: 15px;
+}
+
+/* Seamless Transitions */
+.seamless-transition {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.seamless-transition.active {
+  opacity: 1;
+}
+
+/* Resend Link Styling */
+.resend-link {
+  color: #0078d4;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.resend-link:hover {
+  color: #106ebe;
+  text-decoration: underline;
+}
+
+/* Error State Enhancements */
+.error-retry-button {
+  margin-top: 15px;
+}
+
+/* OTP Input Enhancements */
+.otp-input-container {
+  position: relative;
+}
+
+.otp-input-container input {
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Method Selection Container */
+.method-selection-container {
+  margin: 20px 0;
+}
+
+.method-option-flex {
+  display: flex;
+  align-items: center;
+}
