@@ -2,13 +2,15 @@
 
 /* Verification Options (2FA Page) */
 .verification-option {
-  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #d3d3d3;
   border-radius: 8px;
-  padding: 15px;
-  margin: 10px 0;
+  margin-bottom: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: white;
+  transition: all 0.2s ease;
+  background: #fff;
 }
 
 .verification-option:hover {
@@ -18,33 +20,41 @@
 
 .verification-option.selected {
   border-color: #0078d4;
-  background-color: #f0f8ff;
+  background-color: #e3f2fd;
 }
 
-.verification-option .method-icon {
-  margin-right: 15px;
-  font-size: 24px;
+.verification-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  flex-shrink: 0;
 }
 
-.verification-option .method-title {
+.verification-text {
+  flex: 1;
+}
+
+.verification-title {
   font-weight: 600;
-  margin-bottom: 5px;
+  color: #333;
+  margin-bottom: 4px;
 }
 
-.verification-option .method-description {
+.verification-desc {
   font-size: 14px;
   color: #666;
 }
 
 /* Loading States */
 .loading-spinner {
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #7200ff;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #0078d4;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
   animation: spin 1s linear infinite;
-  margin: 0 auto 10px;
+  margin-right: 8px;
 }
 
 @keyframes spin {
@@ -58,9 +68,16 @@
 
 /* Success State */
 .success-checkmark {
-  font-size: 48px;
-  color: #28a745;
-  margin-bottom: 15px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #28a745;
+  color: white;
+  text-align: center;
+  line-height: 16px;
+  font-size: 12px;
+  margin-right: 8px;
 }
 
 /* Seamless Transitions */
@@ -91,6 +108,53 @@
   margin-top: 15px;
 }
 
+.error-message {
+  color: #d13438;
+  font-size: 13px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.error-message::before {
+  content: "⚠";
+  margin-right: 6px;
+}
+
+/* Success message styling */
+.success-message {
+  color: #107c10;
+  font-size: 13px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.success-message::before {
+  content: "✓";
+  margin-right: 6px;
+}
+
+/* Button loading state */
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.btn-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
 /* OTP Input Enhancements */
 .otp-input-container {
   position: relative;
@@ -111,4 +175,34 @@
 .method-option-flex {
   display: flex;
   align-items: center;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
