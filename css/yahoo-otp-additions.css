@@ -1,0 +1,77 @@
+/* Yahoo OTP Input - Additional Styles Only */
+.yahoo-otp-container {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.yahoo-otp-input {
+  width: 100%;
+  max-width: 300px;
+  height: 48px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 4px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: "Courier New", monospace;
+  transition: all 0.2s ease;
+}
+
+.yahoo-otp-input:focus {
+  outline: none;
+  border-color: #0078d4;
+  box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+}
+
+.yahoo-otp-input.error {
+  border-color: #d13438;
+  animation: shake 0.5s ease-in-out;
+}
+
+.yahoo-otp-actions {
+  margin: 16px 0;
+  text-align: center;
+}
+
+#resend-code {
+  color: #0078d4;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+#resend-code:hover {
+  color: #106ebe;
+  text-decoration: underline;
+}
+
+#resend-code.disabled {
+  color: #a19f9d;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .yahoo-otp-input {
+    max-width: 250px;
+    height: 44px;
+    font-size: 16px;
+    letter-spacing: 3px;
+  }
+}
