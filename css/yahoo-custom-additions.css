@@ -1,0 +1,372 @@
+/* Yahoo Custom Additions - Only new components with yahoo- prefix */
+
+.yahoo-body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #f7f8fa;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.yahoo-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.yahoo-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.yahoo-logo-container {
+  display: inline-block;
+}
+
+.yahoo-logo {
+  height: 58px;
+  width: auto;
+}
+
+.yahoo-main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yahoo-signin-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.yahoo-card-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.yahoo-signin-title {
+  font-size: 32px;
+  font-weight: 400;
+  color: #188fff;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.yahoo-signin-subtitle {
+  font-size: 16px;
+  color: #5f6368;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.yahoo-card-body {
+  margin-bottom: 24px;
+}
+
+.yahoo-form {
+  width: 100%;
+}
+
+.yahoo-form-group {
+  margin-bottom: 20px;
+}
+
+.yahoo-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #202124;
+  margin-bottom: 8px;
+}
+
+.yahoo-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #202124;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.yahoo-input:focus {
+  outline: none;
+  border-color: #188fff;
+  box-shadow: 0 0 0 2px rgba(24, 143, 255, 0.2);
+}
+
+.yahoo-input:invalid {
+  border-color: #d93025;
+}
+
+.yahoo-otp-input {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 4px;
+}
+
+.yahoo-button {
+  width: 100%;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.yahoo-button-primary {
+  background-color: #188fff;
+  color: #ffffff;
+}
+
+.yahoo-button-primary:hover:not(:disabled) {
+  background-color: #1976d2;
+}
+
+.yahoo-button-primary:disabled {
+  background-color: #dadce0;
+  color: #9aa0a6;
+  cursor: not-allowed;
+}
+
+.yahoo-checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.yahoo-checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #5f6368;
+}
+
+.yahoo-checkbox {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+.yahoo-checkbox-text {
+  user-select: none;
+}
+
+.yahoo-links {
+  text-align: center;
+}
+
+.yahoo-link {
+  color: #188fff;
+  text-decoration: none;
+  font-size: 14px;
+  margin: 0 8px;
+  display: inline-block;
+}
+
+.yahoo-link:hover {
+  text-decoration: underline;
+}
+
+.yahoo-card-footer {
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid #dadce0;
+}
+
+.yahoo-footer-text {
+  font-size: 14px;
+  color: #5f6368;
+  margin: 0;
+}
+
+.yahoo-footer {
+  text-align: center;
+  margin-top: 32px;
+}
+
+.yahoo-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.yahoo-footer-link {
+  color: #5f6368;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.yahoo-footer-link:hover {
+  text-decoration: underline;
+}
+
+/* 2FA Specific Styles */
+.yahoo-2fa-options {
+  margin-bottom: 24px;
+}
+
+.yahoo-2fa-option {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.yahoo-2fa-option:hover {
+  border-color: #188fff;
+  background-color: #f8f9ff;
+}
+
+.yahoo-2fa-option.selected {
+  border-color: #188fff;
+  background-color: #f8f9ff;
+}
+
+.yahoo-2fa-icon {
+  margin-right: 16px;
+  color: #5f6368;
+  flex-shrink: 0;
+}
+
+.yahoo-2fa-content {
+  flex: 1;
+}
+
+.yahoo-2fa-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #202124;
+  margin: 0 0 4px 0;
+}
+
+.yahoo-2fa-description {
+  font-size: 14px;
+  color: #5f6368;
+  margin: 0;
+}
+
+.yahoo-2fa-radio {
+  margin-left: 16px;
+}
+
+.yahoo-radio {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.yahoo-radio-label {
+  cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .yahoo-container {
+    padding: 16px;
+  }
+
+  .yahoo-signin-card {
+    padding: 24px 20px;
+  }
+
+  .yahoo-signin-title {
+    font-size: 28px;
+  }
+
+  .yahoo-footer-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .yahoo-input,
+  .yahoo-button,
+  .yahoo-2fa-option {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .yahoo-signin-card {
+    border: 2px solid #000000;
+  }
+
+  .yahoo-input {
+    border: 2px solid #000000;
+  }
+
+  .yahoo-button-primary {
+    border: 2px solid #000000;
+  }
+}
+
+/* Focus indicators for keyboard navigation */
+.yahoo-input:focus,
+.yahoo-button:focus,
+.yahoo-2fa-option:focus,
+.yahoo-link:focus {
+  outline: 2px solid #188fff;
+  outline-offset: 2px;
+}
+
+/* Loading states */
+.yahoo-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.yahoo-loading .yahoo-button {
+  position: relative;
+}
+
+.yahoo-loading .yahoo-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: yahoo-spin 1s linear infinite;
+}
+
+@keyframes yahoo-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
